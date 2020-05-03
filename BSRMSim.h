@@ -13,26 +13,35 @@
 #include "stdlib.h" // for rand()
 #include "math.h" //special funciton like sin() sqrt() abs()
 #include "time.h"//count the running time
+#include "controller.h"
 
-
-#define NUMBER_OF_STEPS 200000  //total time for 1 second
+// SYSTEM FRE SETTING FOR MEASURE, CTRL, SIMULATION 
+#define NUMBER_OF_STEPS 2000000  //total step for 1 second
 #define NS NUMBER_OF_STEPS 
-#define TIME_EACH_STEP 0.000005  //1s for 200000 steps
+#define TIME_EACH_STEP 0.0000005  //1s for 5000000 steps
+#define WRITE_FRE 50000
+#define WRITE_PER_TIME 0.00002
+#define CTRL_FRE 10000
+#define MEASURE_FRE 10000
+
+
+
+
 #define TRUE  True
 #define FALSE False
 #define True  true
 #define False false
 #define true  (1)
 #define false (0)
-#define pi 3.1415926535897932384626433832795 /* double */
+#define pi 3.141592653589793238 /* double */
 #define u0 0.0000012566
-#define ONE_OVER_2PI          0.15915494309189535 // 1/(2*pi)
-#define TWO_PI_OVER_3         2.0943951023931953 // 2*pi/3
-#define SIN_2PI_SLASH_3       0.86602540378443871 // sin(2*pi/3)
-#define SIN_DASH_2PI_SLASH_3 -0.86602540378443871 // sin(-2*pi/3)
-#define SQRT_2_SLASH_3        0.81649658092772603 // sqrt(2.0/3.0)
-#define fbs abs  //  use_fabs_instead_or_you_will_regret
-#define PI_OVER_180   0.017453292519943295
+#define ONE_OVER_2PI          0.159154943 // 1/(2*pi)
+#define TWO_PI_OVER_3         2.0943951 // 2*pi/3
+#define SIN_2PI_SLASH_3       0.8660254 // sin(2*pi/3)
+#define SIN_DASH_2PI_SLASH_3 -0.8660254 // sin(-2*pi/3)
+#define SQRT_2_SLASH_3        0.81649658 // sqrt(2.0/3.0)
+#define fbs fabs  //  use_fabs_instead_or_you_will_regret
+#define PI_OVER_180   0.0174533
 #define sqrt3 1.732
 
 
@@ -43,7 +52,6 @@
 
 //MOTOR IMFORMATION
 #define NUMBER_OF_STATORS 12 // valid for BSRM
-#define NUMBER_OF_ROTORS 8 // valid for BSRM
 #define NUMBER_OF_ROTORS 8 // valid for BSRM
 #define PHASE_NUMBER 3 // 3 phase machine
 #define H_STACK 0.05
@@ -57,13 +65,10 @@
 #define Nm 14/3
 #define Ns 11/2
 #define J 2.06e-6
-#define R_m 0.3
-#define U_m 24
-#define R_s 0.2
-#define U_s 24
+
 
 // Everthing else is in here
-#include "Circuit.h"
+
 
 
 //STRUCTURE DEFINE to descripe the state of motor
@@ -76,20 +81,36 @@ struct BSRMSimulated{
     double angle_A;
     double angle_B;
     double angle_C;
-
-    double x_displacement_A;
-    double y_dispalcement_A;
-    double x_displacement_B;
-    double y_dispalcement_B;
-    double x_displacement_C;
-    double y_dispalcement_C;
     
+    double m;
+    double rpm;
+    double mech_w;
+    double mech_w_deriv;//be converted to angle accelerating speed
+
+    double Tload;// load torque
+    double X_load;// load torque
+    double Y_load;// load torque
+    double Tem_A;//ele torque
+    double Tem_B;
+    double Tem_C;
+    double Tem;
+
+    double x_displacement;
+    double y_displacement;
+    double x_v;
+    double y_v;
+ 
     double Kf1_A;
     double Kf2_A;
     double Kf1_B;
     double Kf2_B;
     double Kf1_C;
     double Kf2_C;
+
+    double Rm;
+    double Um; 
+    double Rs; 
+    double Us; 
 
     double x_force_A;
     double y_force_A;
@@ -99,23 +120,10 @@ struct BSRMSimulated{
     double y_force_C;
     double x_force;
     double y_force;
+    
 
-
-    double rpm;
-    double mech_w;
-    double rpm_cmd;// rpm command
-    double mech_w_cmd;
-    double rpm_deriv_cmd; //be converted to angle accelerating speed
-    double Tload;// load torque
-    double X_load;// load torque
-    double Y_load;// load torque
-    double Tem_A;//ele torque
-    double Tem_B;
-    double Tem_C;
-    double Tem;
 
 // THE ELECTRICAL PART
-    double R;//every resistance in winding
 // INDUCTANCE IS CAHNGING
     double LA_facotr;
     double LB_facotr;
@@ -135,22 +143,10 @@ struct BSRMSimulated{
     double IA_Y;
     double IB_Y;
     double IC_Y;
-    double UA;
-    double UB;
-    double UC;
-    double UA_X;
-    double UB_X;
-    double UC_X;
-    double UA_Y;
-    double UB_Y;
-    double UC_Y;
-
 };
 extern struct BSRMSimulated BSRM;
 
 
-#include "controller.h"
-#include "observer.h"
 
 // Saturation
 // #include "satlut.h"
@@ -164,3 +160,4 @@ double sign(double x);
 double fabs(double x);
 
 #endif
+

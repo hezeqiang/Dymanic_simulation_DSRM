@@ -1,6 +1,15 @@
 {
     "files.associations": {
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "algorithm": "c",
+        "initializer_list": "c",
+        "iosfwd": "c",
+        "xmemory": "c",
+        "xutility": "c",
+        "bsrmsim.h": "c",
+        "stdlib.h": "c",
+        "controller.h": "c",
+        "process.h": "c"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }
