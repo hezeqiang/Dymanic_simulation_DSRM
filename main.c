@@ -329,7 +329,7 @@ int machine_simulation(int step){
     /* Load Torque */
     // BSRM.Tload = 0 * sign(BSRM.rpm); // No-load test
     // BSRM.Tload = BSRM.Tem; // Blocked-rotor test
-    BSRM.Tload = 0.001 * sign(BSRM.rpm)+friction_factor*(BSRM.rpm)*0;
+    BSRM.Tload = 0.001 * sign(BSRM.rpm)+friction_factor*(BSRM.rpm);
     
     // solve for BSRM.x with force and torque, inputs STEP
     Range_Kuta(step);
