@@ -187,7 +187,7 @@ void circuit_main_A(){
         }
         else{
             CTRL.UA_Y=0;
-            BSRM.IA_X=0;
+            BSRM.IA_Y=0;
         }
                    
     }
@@ -239,7 +239,7 @@ void circuit_main_B(){
         }
         else{
             CTRL.UB_Y=0;
-            BSRM.IB_X=0;
+            BSRM.IB_Y=0;
         }
                    
     }
@@ -282,6 +282,7 @@ void circuit_main_C(){
         }
         else{
             CTRL.UC_X=0;
+            BSRM.IC_X=0;
 
         }
 
@@ -293,7 +294,7 @@ void circuit_main_C(){
         }
         else{
             CTRL.UC_Y=0;
-            BSRM.IC_X=0;
+            BSRM.IC_Y=0;
         }       
     }
     
