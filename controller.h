@@ -1,18 +1,19 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-#define SPEED_LOOP_PID_PROPORTIONAL_GAIN 0.00003
-#define SPEED_LOOP_PID_INTEGRAL 0.000015
-#define SPEED_LOOP_PID_DIREVATIVE 0
-#define SPEED_LOOP_LIMIT_ANGLE pi/30  //6° instead 7.5°
 
-#define DIS_LOOP_PID_PROPORTIONAL_GAIN 1000000
+#define SPEED_LOOP_PID_PROPORTIONAL_GAIN 0.0002
+#define SPEED_LOOP_PID_INTEGRAL 0.0000015
+#define SPEED_LOOP_PID_DIREVATIVE 0
+#define SPEED_LOOP_LIMIT_ANGLE pi/24  //6° instead 7.5°
+
+#define DIS_LOOP_PID_PROPORTIONAL_GAIN 500000  //sqrt(gain*2*m)=deritive
 #define DIS_LOOP_PID_INTEGRAL 0
-#define DIS_LOOP_PID_DIREVATIVE 880
+#define DIS_LOOP_PID_DIREVATIVE 616
 #define DIS_LOOP_LIMIT 100
 
 #define CURRENT_HYSTERSIS 0.1
-#define CURRENT_MIAN_WINDINGS 10
+#define CURRENT_MIAN_WINDINGS 20
 
 
 struct PID_Reg{
@@ -42,6 +43,7 @@ struct ControllerForExperiment{
     double advance_angle;
     double main_current;
     double current_hystersis;
+    double MAX_DIS;
     
     int ctrl_count;
     int measure_count;
@@ -51,8 +53,6 @@ struct ControllerForExperiment{
     double rpm_cmd;
     double mech_w;
     double mech_w_deriv;//be converted to angle accelerating speed
-
-
 
     double x_displacement;
     double y_displacement;

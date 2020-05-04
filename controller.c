@@ -16,7 +16,6 @@ double PID(struct PID_Reg *r, double error){
     else{
         r->output_incre=r->Kp*(error-r->pre_error)+0*r->Ki*error+r->Kd*(error-2*r->pre_error+r->prepre_error);
     }  
-
     //the absolute output
     r->output=r->output_incre + r->pre_output;
     r->pre_output=r->output;//pass the previous value to r->pre_output first then consider the limitation
@@ -46,6 +45,7 @@ void CTRL_init(){
     CTRL.main_current= 8.0;
     CTRL.current_hystersis= 0.2 ;
     CTRL.ctrl_count=0;
+    CTRL.MAX_DIS=8;
     
     CTRL.Rm=BSRM.Rm;
     CTRL.Rs=BSRM.Rs;
@@ -143,7 +143,7 @@ void CTRL_init(){
 void circuit_main_A(){
     //  when the A phase is on
     if (CTRL.angle_A>CTRL.advance_angle-pi/24 && CTRL.angle_A<CTRL.advance_angle+pi/24){
-        
+     
         if(BSRM.IA<CTRL.main_current-CTRL.current_hystersis) {CTRL.UA=CTRL.Um;} //depend on the circuit topology
         else if(BSRM.IA>CTRL.main_current+CTRL.current_hystersis){CTRL.UA=-CTRL.Um;}
         else {}
@@ -168,10 +168,10 @@ void circuit_main_A(){
             CTRL.UA=0;
         }
         
-        if(BSRM.IA_X>0.01){
+        if(BSRM.IA_X>0.05){
             CTRL.UA_X=-CTRL.Us;
         }
-        else if(BSRM.IA_X<-0.01){
+        else if(BSRM.IA_X<-0.05){
             CTRL.UA_X=CTRL.Us;
         }
         else{
@@ -179,10 +179,10 @@ void circuit_main_A(){
             BSRM.IA_X=0;
         }
         
-        if(BSRM.IA_Y>0.01){
+        if(BSRM.IA_Y>0.05){
             CTRL.UA_Y=-CTRL.Us;
         }
-        else if(BSRM.IA_Y<-0.01){
+        else if(BSRM.IA_Y<-0.05){
             CTRL.UA_Y=CTRL.Us;
         }
         else{
@@ -220,10 +220,10 @@ void circuit_main_B(){
             CTRL.UB=0;
         }
         
-        if(BSRM.IB_X>0.01){
+        if(BSRM.IB_X>0.05){
             CTRL.UB_X=-CTRL.Us;
         }
-        else if(BSRM.IB_X<-0.01){
+        else if(BSRM.IB_X<-0.05){
             CTRL.UB_X=CTRL.Us;
         }
         else{
@@ -231,10 +231,10 @@ void circuit_main_B(){
             BSRM.IB_X=0;
         }
 
-        if(BSRM.IB_Y>0.01){
+        if(BSRM.IB_Y>0.05){
             CTRL.UB_Y=-CTRL.Us;
         }
-        else if(BSRM.IA_Y<-0.01){
+        else if(BSRM.IB_Y<-0.05){
             CTRL.UB_Y=CTRL.Us;
         }
         else{
@@ -274,10 +274,10 @@ void circuit_main_C(){
         }
         
         
-        if(BSRM.IC_X>0.01){
+        if(BSRM.IC_X>0.05){
             CTRL.UC_X=-CTRL.Us;
         }
-        else if(BSRM.IC_X<-0.01){
+        else if(BSRM.IC_X<-0.05){
             CTRL.UC_X=CTRL.Us;
         }
         else{
@@ -286,10 +286,10 @@ void circuit_main_C(){
 
         }
 
-        if(BSRM.IC_Y>0.01){
+        if(BSRM.IC_Y>0.05){
             CTRL.UC_Y=-CTRL.Us;
         }
-        else if(BSRM.IC_Y<-0.01){
+        else if(BSRM.IC_Y<-0.05){
             CTRL.UC_Y=CTRL.Us;
         }
         else{
@@ -323,30 +323,48 @@ void control(int step){
         CTRL.x_force_C=CTRL.x_force*sqrt3/2 + CTRL.y_force/2;
         CTRL.y_force_C= - CTRL.x_force/2 +CTRL.y_force*sqrt3/2;
 
-        CTRL.IA_X=(CTRL.Kf1_A*CTRL.x_force_A-CTRL.Kf2_A*CTRL.y_force_A)/CTRL.main_current/(CTRL.Kf2_A*CTRL.Kf2_A+CTRL.Kf1_A*CTRL.Kf1_A);
-        CTRL.IA_Y=(CTRL.Kf2_A*CTRL.x_force_A-CTRL.Kf1_A*CTRL.y_force_A)/CTRL.main_current/(CTRL.Kf2_A*CTRL.Kf2_A-CTRL.Kf1_A*CTRL.Kf1_A);
+        if (CTRL.angle_A>CTRL.advance_angle-pi/24 && CTRL.angle_A<CTRL.advance_angle+pi/24){
+            CTRL.IA_X=(CTRL.Kf1_A*CTRL.x_force_A-CTRL.Kf2_A*CTRL.y_force_A)/CTRL.main_current/(CTRL.Kf2_A*CTRL.Kf2_A+CTRL.Kf1_A*CTRL.Kf1_A);
+            CTRL.IA_Y=(CTRL.Kf2_A*CTRL.x_force_A-CTRL.Kf1_A*CTRL.y_force_A)/CTRL.main_current/(CTRL.Kf2_A*CTRL.Kf2_A-CTRL.Kf1_A*CTRL.Kf1_A);
+        }
+        else{
+            CTRL.IA_X=0;
+            CTRL.IA_Y=0;
+        }
 
-        CTRL.IB_X=(CTRL.Kf1_B*CTRL.x_force_B-CTRL.Kf2_B*CTRL.y_force_B)/CTRL.main_current/(CTRL.Kf2_B*CTRL.Kf2_B+CTRL.Kf1_B*CTRL.Kf1_B);
-        CTRL.IB_Y=(CTRL.Kf2_B*CTRL.x_force_B-CTRL.Kf1_B*CTRL.y_force_B)/CTRL.main_current/(CTRL.Kf2_B*CTRL.Kf2_B-CTRL.Kf1_B*CTRL.Kf1_B);
+        
+        if (CTRL.angle_B>CTRL.advance_angle-pi/24 && CTRL.angle_B<CTRL.advance_angle+pi/24){
+            CTRL.IB_X=(CTRL.Kf1_B*CTRL.x_force_B-CTRL.Kf2_B*CTRL.y_force_B)/CTRL.main_current/(CTRL.Kf2_B*CTRL.Kf2_B+CTRL.Kf1_B*CTRL.Kf1_B);
+            CTRL.IB_Y=(CTRL.Kf2_B*CTRL.x_force_B-CTRL.Kf1_B*CTRL.y_force_B)/CTRL.main_current/(CTRL.Kf2_B*CTRL.Kf2_B-CTRL.Kf1_B*CTRL.Kf1_B);
+        }
+        else{
+            CTRL.IB_X=0;
+            CTRL.IB_Y=0;
+        }
 
-        CTRL.IC_X=(CTRL.Kf1_C*CTRL.x_force_C-CTRL.Kf2_C*CTRL.y_force_C)/CTRL.main_current/(CTRL.Kf2_C*CTRL.Kf2_C+CTRL.Kf1_C*CTRL.Kf1_C);
-        CTRL.IC_Y=(CTRL.Kf2_C*CTRL.x_force_C-CTRL.Kf1_C*CTRL.y_force_C)/CTRL.main_current/(CTRL.Kf2_C*CTRL.Kf2_C-CTRL.Kf1_C*CTRL.Kf1_C);
+        if (CTRL.angle_C>CTRL.advance_angle-pi/24 && CTRL.angle_C<CTRL.advance_angle+pi/24){
+            CTRL.IC_X=(CTRL.Kf1_C*CTRL.x_force_C-CTRL.Kf2_C*CTRL.y_force_C)/CTRL.main_current/(CTRL.Kf2_C*CTRL.Kf2_C+CTRL.Kf1_C*CTRL.Kf1_C);
+            CTRL.IC_Y=(CTRL.Kf2_C*CTRL.x_force_C-CTRL.Kf1_C*CTRL.y_force_C)/CTRL.main_current/(CTRL.Kf2_C*CTRL.Kf2_C-CTRL.Kf1_C*CTRL.Kf1_C);
+        }
+        else{
+            CTRL.IC_X=0;
+            CTRL.IC_Y=0;
+        }
 
+        if (CTRL.IA_X>CTRL.MAX_DIS){CTRL.IA_X=CTRL.MAX_DIS;}
+        else if(CTRL.IA_X<-CTRL.MAX_DIS){CTRL.IA_X=-CTRL.MAX_DIS;}
+        if (CTRL.IA_Y>CTRL.MAX_DIS){CTRL.IA_Y=CTRL.MAX_DIS;}
+        else if(CTRL.IA_Y<-CTRL.MAX_DIS){CTRL.IA_Y=-CTRL.MAX_DIS;}
 
-        if (CTRL.IA_X>10){CTRL.IA_X=10;}
-        else if(CTRL.IA_X<-10){CTRL.IA_X=-10;}
-        if (CTRL.IA_Y>10){CTRL.IA_Y=10;}
-        else if(CTRL.IA_Y<-10){CTRL.IA_Y=-10;}
+        if (CTRL.IB_X>CTRL.MAX_DIS){CTRL.IB_X=CTRL.MAX_DIS;}
+        else if(CTRL.IB_X<-CTRL.MAX_DIS){CTRL.IB_X=-CTRL.MAX_DIS;}
+        if (CTRL.IB_Y>CTRL.MAX_DIS){CTRL.IB_Y=CTRL.MAX_DIS;}
+        else if(CTRL.IB_Y<-CTRL.MAX_DIS){CTRL.IB_Y=-CTRL.MAX_DIS;}
 
-        if (CTRL.IB_X>10){CTRL.IB_X=10;}
-        else if(CTRL.IB_X<-10){CTRL.IB_X=-10;}
-        if (CTRL.IB_Y>10){CTRL.IB_Y=10;}
-        else if(CTRL.IB_Y<-10){CTRL.IB_Y=-10;}
-
-        if (CTRL.IC_X>10){CTRL.IC_X=10;}
-        else if(CTRL.IC_X<-10){CTRL.IC_X=-10;}
-        if (CTRL.IC_Y>10){CTRL.IC_Y=10;}
-        else if(CTRL.IC_Y<-10){CTRL.IC_Y=-10;}
+        if (CTRL.IC_X>CTRL.MAX_DIS){CTRL.IC_X=CTRL.MAX_DIS;}
+        else if(CTRL.IC_X<-CTRL.MAX_DIS){CTRL.IC_X=-CTRL.MAX_DIS;}
+        if (CTRL.IC_Y>CTRL.MAX_DIS){CTRL.IC_Y=CTRL.MAX_DIS;}
+        else if(CTRL.IC_Y<-CTRL.MAX_DIS){CTRL.IC_Y=-CTRL.MAX_DIS;}
 //      BSRM.x_force_A=IA*(BSRM.Kf1_A*IA_X+BSRM.Kf2_A*IA_Y);
 //      BSRM.y_force_A=IA*(-BSRM.Kf2_A*IA_X+BSRM.Kf1_A*IA_Y);
 

@@ -8,7 +8,7 @@ struct ControllerForExperiment CTRL;
 void write_header_to_file(FILE *fw){// include the explaination of data imformation
     // no space is allowed!
     //BSRM.IA(Current)[A],BSRM.IA_X(Current)[A],BSRM.IA_Y(Current)[A],BSRM.IB(Current)[A],BSRM.IC(Current)[A],BSRM.Kf1_A(Factor),BSRM.Kf2_A(Factor),BSRM.LA(Inductance)[H],BSRM.mech_angle(position)[rad],BSRM.rpm(Speed)[rpm],BSRM.rpm_cmd(Speed)[rpm],BSRM.Tem(Torque)[N*m],CTRL.UA(Voltage)[V],CTRL.UA_X(Voltage)[V],CTRL.UA_Y(Voltage)[V],CTRL.UB(Voltage)[V],CTRL.UC(Voltage)[V],BSRM.Tem,BSRM.Tem_A,BSRM.Tem_B,BSRM.Tem_C,BSRM.Tload,BSRM.mech_angle,BSRM.timebase(Time)[s],CTRL.advance_angle(Angle)[rad],CTRL.angle_A(Angle)[rad],CTRL.mech_angle(Angle)[rad],CTRL.rpm(Speed)[rpm],CTRL.UA\n"
-    fprintf(fw, "BSRM.rpm,BSRM.IA,BSRM.IB,BSRM.IC,BSRM.angle_A,BSRM.mech_angle,BSRM.IA_X,BSRM.IA_Y,CTRL.IA_X,CTRL.IA_Y,CTRL.x_force,CTRL.y_force,BSRM.x_force,BSRM.y_force,CTRL.x_force_B,CTRL.x_force_C,BSRM.x_displacement,BSRM.y_displacement,CTRL.x_displacement,CTRL.y_displacement,CTRL.rpm,BSRM.x_v,BSRM.y_v,BSRM.X_load,BSRM.Y_load,CTRL.advance_angle,CTRL.angle_A\n");    
+    fprintf(fw, "BSRM.rpm,BSRM.IA,BSRM.IB,BSRM.IC,BSRM.angle_A,BSRM.mech_angle,BSRM.Tem_A,BSRM.Tem_B,BSRM.Tem_C,BSRM.IB_X,BSRM.IB_Y,CTRL.IB_X,CTRL.IB_Y,BSRM.IA_X,BSRM.IA_Y,CTRL.IA_X,CTRL.IA_Y,CTRL.x_force,CTRL.y_force,BSRM.x_force,BSRM.y_force,CTRL.x_force_B,CTRL.x_force_C,BSRM.x_displacement,BSRM.y_displacement,CTRL.x_displacement,CTRL.y_displacement,CTRL.rpm,BSRM.x_v,BSRM.y_v,BSRM.X_load,BSRM.Y_load,CTRL.advance_angle,CTRL.angle_A\n");    
     {
         FILE *fw2;
         fw2 = fopen("info.dat", "w");   //create a new file named info.dat
@@ -33,8 +33,8 @@ void write_data_to_file(FILE *fw){
         {
             write_judge=0;
             // no space is allowed!!!23
-            fprintf(fw, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
-                    BSRM.rpm,BSRM.IA,BSRM.IB,BSRM.IC,BSRM.angle_A,BSRM.mech_angle,BSRM.IA_X,BSRM.IA_Y,CTRL.IA_X,CTRL.IA_Y,CTRL.x_force,CTRL.y_force,BSRM.x_force,BSRM.y_force,CTRL.x_force_B,CTRL.x_force_C,BSRM.x_displacement,BSRM.y_displacement,CTRL.x_displacement,CTRL.y_displacement,CTRL.rpm,BSRM.x_v,BSRM.y_v,BSRM.X_load,BSRM.Y_load,CTRL.advance_angle,CTRL.angle_A
+            fprintf(fw, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
+                    BSRM.rpm,BSRM.IA,BSRM.IB,BSRM.IC,BSRM.angle_A,BSRM.mech_angle,BSRM.Tem_A,BSRM.Tem_B,BSRM.Tem_C,BSRM.IB_X,BSRM.IB_Y,CTRL.IB_X,CTRL.IB_Y,BSRM.IA_X,BSRM.IA_Y,CTRL.IA_X,CTRL.IA_Y,CTRL.x_force,CTRL.y_force,BSRM.x_force,BSRM.y_force,CTRL.x_force_B,CTRL.x_force_C,BSRM.x_displacement,BSRM.y_displacement,CTRL.x_displacement,CTRL.y_displacement,CTRL.rpm,BSRM.x_v,BSRM.y_v,BSRM.X_load,BSRM.Y_load,CTRL.advance_angle,CTRL.angle_A
                     );
         }
         
@@ -92,7 +92,7 @@ void cal_force_A(double angle_A,double IA,double IA_X,double IA_Y){
 }
 void cal_force_B(double angle_B,double IB,double IB_X,double IB_Y){
     if (fbs(IB)>0.1){
-        cal_Kf_A(angle_B);
+        cal_Kf_B(angle_B);
         BSRM.x_force_B=IB*(BSRM.Kf1_B*IB_X+BSRM.Kf2_B*IB_Y);
         BSRM.y_force_B=IB*(-BSRM.Kf2_B*IB_X+BSRM.Kf1_B*IB_Y);
     }
@@ -103,7 +103,7 @@ void cal_force_B(double angle_B,double IB,double IB_X,double IB_Y){
 }
 void cal_force_C(double angle_C,double IC,double IC_X,double IC_Y){
     if (fbs(IC)>0.1){
-        cal_Kf_A(angle_C);
+        cal_Kf_C(angle_C);
         BSRM.x_force_C=IC*(BSRM.Kf1_C*IC_X+BSRM.Kf2_C*IC_Y);
         BSRM.y_force_C=IC*(-BSRM.Kf2_C*IC_X+BSRM.Kf1_C*IC_Y);
     }
