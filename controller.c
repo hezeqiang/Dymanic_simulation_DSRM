@@ -332,6 +332,21 @@ void control(int step){
         CTRL.IC_X=(CTRL.Kf1_C*CTRL.x_force_C-CTRL.Kf2_C*CTRL.y_force_C)/CTRL.main_current/(CTRL.Kf2_C*CTRL.Kf2_C+CTRL.Kf1_C*CTRL.Kf1_C);
         CTRL.IC_Y=(CTRL.Kf2_C*CTRL.x_force_C-CTRL.Kf1_C*CTRL.y_force_C)/CTRL.main_current/(CTRL.Kf2_C*CTRL.Kf2_C-CTRL.Kf1_C*CTRL.Kf1_C);
 
+
+        if (CTRL.IA_X>10){CTRL.IA_X=10;}
+        else if(CTRL.IA_X<-10){CTRL.IA_X=-10;}
+        if (CTRL.IA_Y>10){CTRL.IA_Y=10;}
+        else if(CTRL.IA_Y<-10){CTRL.IA_Y=-10;}
+
+        if (CTRL.IB_X>10){CTRL.IB_X=10;}
+        else if(CTRL.IB_X<-10){CTRL.IB_X=-10;}
+        if (CTRL.IB_Y>10){CTRL.IB_Y=10;}
+        else if(CTRL.IB_Y<-10){CTRL.IB_Y=-10;}
+
+        if (CTRL.IC_X>10){CTRL.IC_X=10;}
+        else if(CTRL.IC_X<-10){CTRL.IC_X=-10;}
+        if (CTRL.IC_Y>10){CTRL.IC_Y=10;}
+        else if(CTRL.IC_Y<-10){CTRL.IC_Y=-10;}
 //      BSRM.x_force_A=IA*(BSRM.Kf1_A*IA_X+BSRM.Kf2_A*IA_Y);
 //      BSRM.y_force_A=IA*(-BSRM.Kf2_A*IA_X+BSRM.Kf1_A*IA_Y);
 
