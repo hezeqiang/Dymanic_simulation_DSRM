@@ -60,7 +60,7 @@
 #define l_0 0.00022
 #define AIRGAP_LENGTH  l_0
 #define COMMUTATE_ANGLE pi/12
-#define friction_factor 0.005//for the rpm speed
+#define friction_factor 0.000001//for the rpm speed
 #define c 1.49
 #define Nm 14/3
 #define Ns 11/2

@@ -116,7 +116,7 @@ void CTRL_init(){
 
     CTRL.PID_speed.pre_output=0.0;
     CTRL.PID_speed.output=0.0;
-    CTRL.PID_speed.cutoff=0.5;
+    CTRL.PID_speed.cutoff=300;
     printf("Speed PID: Kp=%f, Ki=%f, Kd=%f, limit=%f Nm\n", CTRL.PID_speed.Kp, CTRL.PID_speed.Ki,CTRL.PID_speed.Kd, CTRL.PID_speed.limit);
 
     CTRL.PID_disx.Kp = DIS_LOOP_PID_PROPORTIONAL_GAIN;
@@ -304,7 +304,7 @@ void control(int step){
         ctrl_judge=0;
         CTRL.ctrl_count++;
         // Input 1 is feedback: measured speed
-        CTRL.advance_angle=PID(&CTRL.PID_speed,CTRL.rpm-2000);//CTRL.rpm_cmd
+        CTRL.advance_angle=PID(&CTRL.PID_speed,CTRL.rpm-CTRL.rpm_cmd);//CTRL.rpm_cmd
         
         // Input 2 is feedback: measured current in x
         CTRL.x_force=PID(&CTRL.PID_disx,-CTRL.x_displacement);
