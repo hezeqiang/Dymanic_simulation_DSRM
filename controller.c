@@ -56,9 +56,6 @@ void CTRL_init(){
     CTRL.x_displacement = BSRM.x_displacement;
     CTRL.y_displacement = BSRM.y_displacement;
 
-    CTRL.IA=BSRM.IA;
-    CTRL.IB=BSRM.IB;
-    CTRL.IC=BSRM.IC;
     CTRL.IA_X=BSRM.IA_X;
     CTRL.IA_Y=BSRM.IA_Y;
     CTRL.IB_X=BSRM.IB_Y;
@@ -130,7 +127,7 @@ void CTRL_init(){
     CTRL.PID_disx.cutoff=0.00001;
     printf("displacement x PID: Kp=%f, Ki=%f, Kd=%f, limit=%f Nm\n",CTRL.PID_disx.Kp, CTRL.PID_disx.Ki,CTRL.PID_disx.Kd, CTRL.PID_disx.limit);
 
-    CTRL.PID_disy.Kp = SPEED_LOOP_PID_PROPORTIONAL_GAIN;
+    CTRL.PID_disy.Kp = DIS_LOOP_PID_PROPORTIONAL_GAIN;
     CTRL.PID_disy.Ki = DIS_LOOP_PID_INTEGRAL;
     CTRL.PID_disy.Kd = DIS_LOOP_PID_DIREVATIVE;
     CTRL.PID_disy.limit = DIS_LOOP_LIMIT;
@@ -179,6 +176,7 @@ void circuit_main_A(){
         }
         else{
             CTRL.UA_X=0;
+            BSRM.IA_X=0;
         }
         
         if(BSRM.IA_Y>0.01){
@@ -189,6 +187,7 @@ void circuit_main_A(){
         }
         else{
             CTRL.UA_Y=0;
+            BSRM.IA_X=0;
         }
                    
     }
@@ -229,6 +228,7 @@ void circuit_main_B(){
         }
         else{
             CTRL.UB_X=0;
+            BSRM.IB_X=0;
         }
 
         if(BSRM.IB_Y>0.01){
@@ -239,6 +239,7 @@ void circuit_main_B(){
         }
         else{
             CTRL.UB_Y=0;
+            BSRM.IB_X=0;
         }
                    
     }
@@ -281,6 +282,7 @@ void circuit_main_C(){
         }
         else{
             CTRL.UC_X=0;
+
         }
 
         if(BSRM.IC_Y>0.01){
@@ -291,6 +293,7 @@ void circuit_main_C(){
         }
         else{
             CTRL.UC_Y=0;
+            BSRM.IC_X=0;
         }       
     }
     

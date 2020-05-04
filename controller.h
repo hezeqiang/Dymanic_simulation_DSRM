@@ -4,12 +4,12 @@
 #define SPEED_LOOP_PID_PROPORTIONAL_GAIN 0.001
 #define SPEED_LOOP_PID_INTEGRAL 0.000015
 #define SPEED_LOOP_PID_DIREVATIVE 0
-#define SPEED_LOOP_LIMIT_ANGLE pi/24
+#define SPEED_LOOP_LIMIT_ANGLE pi/36  //5° instead 7.5°
 
-#define DIS_LOOP_PID_PROPORTIONAL_GAIN 10
-#define DIS_LOOP_PID_INTEGRAL 0.1
-#define DIS_LOOP_PID_DIREVATIVE 1
-#define DIS_LOOP_LIMIT 25
+#define DIS_LOOP_PID_PROPORTIONAL_GAIN 10000
+#define DIS_LOOP_PID_INTEGRAL 100
+#define DIS_LOOP_PID_DIREVATIVE 10000
+#define DIS_LOOP_LIMIT 10
 
 #define CURRENT_HYSTERSIS 0.1
 #define CURRENT_MIAN_WINDINGS 10
@@ -53,18 +53,10 @@ struct ControllerForExperiment{
     double mech_w_deriv;//be converted to angle accelerating speed
 
 
-    double Tload;// load torque
-    double X_load;// load torque
-    double Y_load;// load torque
-    double Tem_A;//ele torque
-    double Tem_B;
-    double Tem_C;
-    double Tem;
 
     double x_displacement;
     double y_displacement;
-    double x_v;
-    double y_v;
+
  
     double Kf1_A;
     double Kf2_A;
@@ -99,9 +91,6 @@ struct ControllerForExperiment{
 
 
 //WINDINGS STATE
-    double IA;
-    double IB;
-    double IC;
     double IA_X;
     double IB_X;
     double IC_X;
