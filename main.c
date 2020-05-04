@@ -210,6 +210,9 @@ void Range_Kuta(int step){
     double w_k1, w_k2, w_k3, w_k4, w_k;
     double x_k1, x_k2, x_k3, x_k4, x_k;
     double y_k1, y_k2, y_k3, y_k4, y_k;
+    double theta_k1, theta_k2, theta_k3, theta_k4, theta_k;
+    double x_v_k1, x_v_k2, x_v_k3, x_v_k4, x_v_k;
+    double y_v_k1, y_v_k2, y_v_k3, y_v_k4, y_v_k;
     double imA_k1, imA_k2, imA_k3, imA_k4, imA_k;
     double ixA_k1, ixA_k2, ixA_k3, ixA_k4, ixA_k;
     double iyA_k1, iyA_k2, iyA_k3, iyA_k4, iyA_k;
@@ -220,15 +223,46 @@ void Range_Kuta(int step){
     double ixC_k1, ixC_k2, ixC_k3, ixC_k4, ixC_k;
     double iyC_k1, iyC_k2, iyC_k3, iyC_k4, iyC_k;
 
-
-    double f_w[2],f_angle[2],fx[2],fy[2],fx_dis[2],fy_dis[2],fma[2],f1a[2],f2a[2],fmb[2],f1b[2],f2b[2],fmc[2],f1c[2],f2c[2];
+    //store the value for runge kuta calculation
+    double f_w,f_angle,fx_v,fy_v,fx_dis,fy_dis,fma,f1a,f2a,fmb,f1b,f2b,fmc,f1c,f2c;
     
+//    double f_LA_deri_factor,f_LA_facotr,f_LB_deri_factor,f_LB_facotr,f_LC_deri_factor,f_LC_facotr;
     dynamics(); // timer.t,
     
-    w_k1=(BSRM.Tem-BSRM.Tload)/J;
-    x_k1=(BSRM.x_force-BSRM.X_load)/BSRM.m;
-    y_k1=(BSRM.y_force-BSRM.Y_load)/BSRM.m;
+    //the initial state should be preserved for last step of  Runge-Kutta simulation
+    f_angle=BSRM.mech_angle;
+    f_w=BSRM.mech_w;
+    fx_v=BSRM.x_v;
+    fy_v=BSRM.y_v;
+    fx_dis=BSRM.x_displacement;
+    fy_dis=BSRM.y_displacement;
+    fma=BSRM.IA;
+    f1a=BSRM.IA_X;
+    f2a=BSRM.IA_Y;
+    fmb=BSRM.IB;
+    f1b=BSRM.IB_X;
+    f2b=BSRM.IB_Y;
+    fmc=BSRM.IC;
+    f1c=BSRM.IC_X;
+    f2c=BSRM.IC_Y; 
+/*
+    f_LA_deri_factor=BSRM.LA_deri_factor;
+    f_LA_facotr=BSRM.LA_facotr;
+    f_LB_deri_factor=BSRM.LB_deri_factor;
+    f_LB_facotr=BSRM.LB_deri_factor;
+    f_LC_deri_factor=BSRM.LB_deri_factor;
+    f_LC_facotr=BSRM.LB_deri_factor;
+*/
+    //MECHNICAL PART DERITIVE
+    w_k1 = (BSRM.Tem-BSRM.Tload)/J;
+    theta_k1 = BSRM.mech_w;
+    x_k1 = BSRM.x_v;
+    y_k1 = BSRM.y_v;
+    x_v_k1 = (BSRM.x_force-BSRM.X_load)/BSRM.m;
+    y_v_k1 = (BSRM.y_force-BSRM.Y_load)/BSRM.m;
 
+
+    //ELECTRICAL PART DERITIVE
     imA_k1=(CTRL.UA-BSRM.Rm*BSRM.IA-BSRM.mech_w*BSRM.LA_deri_factor*2*Nm*Nm*BSRM.IA)/(BSRM.LA_facotr*2*Nm*Nm);
     ixA_k1=(CTRL.UA_X-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_X)/(BSRM.LA_facotr*Ns*Ns);
     iyA_k1=(CTRL.UA_Y-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_Y)/(BSRM.LA_facotr*Ns*Ns);
@@ -241,43 +275,35 @@ void Range_Kuta(int step){
     ixC_k1=(CTRL.UC_X-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_X)/(BSRM.LC_facotr*Ns*Ns);
     iyC_k1=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
 
-    f_w[0]=BSRM.mech_w;
-    f_angle[0]=BSRM.mech_angle;
-    fx[0]=BSRM.x_v;
-    fy[0]=BSRM.y_v;
-    fx_dis[0]=BSRM.x_displacement;
-    fy_dis[0]=BSRM.y_displacement;
-    fma[0]=BSRM.IA;
-    f1a[0]=BSRM.IA_X;
-    f2a[0]=BSRM.IA_Y;
-    fmb[0]=BSRM.IB;
-    f1b[0]=BSRM.IB_X;
-    f2b[0]=BSRM.IB_Y;
-    fmc[0]=BSRM.IC;
-    f1c[0]=BSRM.IC_X;
-    f2c[0]=BSRM.IC_Y;
+    //BEGIN TO CALCULATE HTE k+1/2 step state variables
+    BSRM.mech_angle=f_angle+ TIME_EACH_STEP*theta_k1/2;
+    BSRM.mech_w=f_w +TIME_EACH_STEP*w_k1/2;
+    BSRM.x_v=fx_v+ TIME_EACH_STEP*x_v_k1/2;
+    BSRM.y_v=fy_v+ TIME_EACH_STEP*y_v_k1/2;
+    BSRM.x_displacement=fx_dis+ TIME_EACH_STEP*x_k1/2;//    BSRM.x_v=BSRM.x_v+ TIME_EACH_STEP*x_k1;
+    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*x_k1/2;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
 
+    BSRM.IA=fma+ TIME_EACH_STEP*imA_k1/2;
+    BSRM.IA_X=f1a+ TIME_EACH_STEP*ixA_k1/2;
+    BSRM.IA_Y=f2a+ TIME_EACH_STEP*iyA_k1/2;
+    BSRM.IB=fmb+ TIME_EACH_STEP*imB_k1/2;
+    BSRM.IB_X=f1b+ TIME_EACH_STEP*ixB_k1/2;
+    BSRM.IB_Y=f2b+ TIME_EACH_STEP*iyB_k1/2;
+    BSRM.IC=fmc+ TIME_EACH_STEP*imC_k1/2;
+    BSRM.IC_X=f1c+ TIME_EACH_STEP*ixC_k1/2;
+    BSRM.IC_Y=f2c+ TIME_EACH_STEP*iyC_k1/2;
 
-    BSRM.mech_angle=BSRM.mech_angle+ TIME_EACH_STEP*BSRM.mech_w;
-    BSRM.mech_w=BSRM.mech_w+ TIME_EACH_STEP*w_k1;
-    BSRM.x_displacement=BSRM.x_displacement+ TIME_EACH_STEP*BSRM.x_v;//    BSRM.x_v=BSRM.x_v+ TIME_EACH_STEP*x_k1;
-    BSRM.y_displacement=BSRM.y_displacement+ TIME_EACH_STEP*BSRM.y_v;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
+    dynamics(); // timer.t+1/2,
 
-    BSRM.IA=BSRM.IA+ TIME_EACH_STEP*imA_k1;
-    BSRM.IA_X=BSRM.IA_X+ TIME_EACH_STEP*ixA_k1;
-    BSRM.IA_Y=BSRM.IA_Y+ TIME_EACH_STEP*iyA_k1;
-    BSRM.IB=BSRM.IB+ TIME_EACH_STEP*imB_k1;
-    BSRM.IB_X=BSRM.IB_X+ TIME_EACH_STEP*ixB_k1;
-    BSRM.IB_Y=BSRM.IB_Y+ TIME_EACH_STEP*iyB_k1;
-    BSRM.IC=BSRM.IC+ TIME_EACH_STEP*imC_k1;
-    BSRM.IC_X=BSRM.IC_X+ TIME_EACH_STEP*ixC_k1;
-    BSRM.IC_Y=BSRM.IC_Y+ TIME_EACH_STEP*iyC_k1;
+    // SINCE THE k2 IS UTILIZED FRO k STEP, SO THERE IS NO VALUE IN RECORDING HTE DATA, JUST CALCULATE THE DERITIVE 
 
-    dynamics(); // timer.t+1,
-
+    //MECHNICAL PART DERITIVE
     w_k2=(BSRM.Tem-BSRM.Tload)/J;
-    x_k2=(BSRM.x_force-BSRM.X_load)/BSRM.m;
-    y_k2=(BSRM.y_force-BSRM.Y_load)/BSRM.m;
+    theta_k2=BSRM.mech_w;
+    x_k2 = BSRM.x_v;
+    y_k2 = BSRM.y_v;
+    x_v_k2 = (BSRM.x_force-BSRM.X_load)/BSRM.m;
+    y_v_k2 = (BSRM.y_force-BSRM.Y_load)/BSRM.m;
 
     imA_k2=(CTRL.UA-BSRM.Rm*BSRM.IA-BSRM.mech_w*BSRM.LA_deri_factor*2*Nm*Nm*BSRM.IA)/(BSRM.LA_facotr*2*Nm*Nm);
     ixA_k2=(CTRL.UA_X-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_X)/(BSRM.LA_facotr*Ns*Ns);
@@ -291,37 +317,129 @@ void Range_Kuta(int step){
     ixC_k2=(CTRL.UC_X-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_X)/(BSRM.LC_facotr*Ns*Ns);
     iyC_k2=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
 
-    w_k=(w_k1+w_k2)/2;
-    x_k=(x_k1+x_k2)/2;
-    y_k=(y_k1+y_k2)/2;
-    imA_k=(imA_k1+imA_k2)/2;
-    ixA_k=(ixA_k1+ixA_k2)/2;
-    iyA_k=(iyA_k1+iyA_k2)/2;
-    imB_k=(imB_k1+imB_k2)/2;
-    ixB_k=(ixB_k1+ixB_k2)/2;
-    iyB_k=(iyB_k1+iyB_k2)/2; 
-    imC_k=(imC_k1+imC_k2)/2;
-    ixC_k=(ixC_k1+ixC_k2)/2;
-    iyC_k=(iyC_k1+iyC_k2)/2;
 
-    BSRM.mech_angle=f_angle[0]+ TIME_EACH_STEP*f_w[0];
-    BSRM.mech_w=f_w[0]+ TIME_EACH_STEP*w_k;
-    BSRM.x_displacement=fx_dis[0]+ TIME_EACH_STEP*fx[0];
-    BSRM.y_displacement=fy_dis[0]+ TIME_EACH_STEP*fy[0];
-    BSRM.x_v=fx[0]+ TIME_EACH_STEP*x_k;
-    BSRM.y_v=fy[0]+ TIME_EACH_STEP*y_k;
+    //BEGIN TO CALCULATE HTE k+1/2 step state variables
+    BSRM.mech_angle=f_angle+ TIME_EACH_STEP*theta_k2/2;
+    BSRM.mech_w=f_w+ TIME_EACH_STEP*w_k2/2;
+    BSRM.x_v=fx_v+ TIME_EACH_STEP*x_v_k2/2;
+    BSRM.y_v=fy_v+ TIME_EACH_STEP*y_v_k2/2;
+    BSRM.x_displacement=fx_dis+ TIME_EACH_STEP*x_k2/2;//    BSRM.x_v=BSRM.x_v+ TIME_EACH_STEP*x_k1;
+    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*x_k2/2;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
+
+    BSRM.IA=fma+ TIME_EACH_STEP*imA_k2/2;
+    BSRM.IA_X=f1a+ TIME_EACH_STEP*ixA_k2/2;
+    BSRM.IA_Y=f2a+ TIME_EACH_STEP*iyA_k2/2;
+    BSRM.IB=fmb+ TIME_EACH_STEP*imB_k2/2;
+    BSRM.IB_X=f1b+ TIME_EACH_STEP*ixB_k2/2;
+    BSRM.IB_Y=f2b+ TIME_EACH_STEP*iyB_k2/2;
+    BSRM.IC=fmc+ TIME_EACH_STEP*imC_k2/2;
+    BSRM.IC_X=f1c+ TIME_EACH_STEP*ixC_k2/2;
+    BSRM.IC_Y=f2c+ TIME_EACH_STEP*iyC_k2/2;
+    
+
+    dynamics(); // timer.t+1/2, second timw
+
+    // SINCE THE k3 IS UTILIZED FRO k STEP, SO THERE IS NO VALUE IN RECORDING HTE DATA, JUST CALCULATE THE DERITIVE 
+
+    //MECHNICAL PART DERITIVE
+    w_k3=(BSRM.Tem-BSRM.Tload)/J;
+    theta_k3=BSRM.mech_w;
+    x_k3 = BSRM.x_v;
+    y_k3 = BSRM.y_v;
+    x_v_k3 = (BSRM.x_force-BSRM.X_load)/BSRM.m;
+    y_v_k3 = (BSRM.y_force-BSRM.Y_load)/BSRM.m;
+
+    imA_k3=(CTRL.UA-BSRM.Rm*BSRM.IA-BSRM.mech_w*BSRM.LA_deri_factor*2*Nm*Nm*BSRM.IA)/(BSRM.LA_facotr*2*Nm*Nm);
+    ixA_k3=(CTRL.UA_X-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_X)/(BSRM.LA_facotr*Ns*Ns);
+    iyA_k3=(CTRL.UA_Y-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_Y)/(BSRM.LA_facotr*Ns*Ns);
+
+    imB_k3=(CTRL.UB-BSRM.Rm*BSRM.IB-BSRM.mech_w*BSRM.LB_deri_factor*2*Nm*Nm*BSRM.IB)/(BSRM.LB_facotr*2*Nm*Nm);
+    ixB_k3=(CTRL.UB_X-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_X)/(BSRM.LB_facotr*Ns*Ns);
+    iyB_k3=(CTRL.UB_Y-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_Y)/(BSRM.LB_facotr*Ns*Ns);   
+   
+    imC_k3=(CTRL.UC-BSRM.Rm*BSRM.IC-BSRM.mech_w*BSRM.LC_deri_factor*2*Nm*Nm*BSRM.IC)/(BSRM.LC_facotr*2*Nm*Nm);
+    ixC_k3=(CTRL.UC_X-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_X)/(BSRM.LC_facotr*Ns*Ns);
+    iyC_k3=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
+
+    //BEGIN TO CALCULATE HTE k+1 step state variables
+    BSRM.mech_angle=f_angle+ TIME_EACH_STEP*theta_k3;
+    BSRM.mech_w=f_w+ TIME_EACH_STEP*w_k3;
+    BSRM.x_v=fx_v+ TIME_EACH_STEP*x_v_k3;
+    BSRM.y_v=fy_v+ TIME_EACH_STEP*y_v_k3;
+    BSRM.x_displacement=fx_dis+ TIME_EACH_STEP*x_k3;//    BSRM.x_v=BSRM.x_v+ TIME_EACH_STEP*x_k1;
+    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*x_k3;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
+
+    BSRM.IA=fma+ TIME_EACH_STEP*imA_k3;
+    BSRM.IA_X=f1a+ TIME_EACH_STEP*ixA_k3;
+    BSRM.IA_Y=f2a+ TIME_EACH_STEP*iyA_k3;
+    BSRM.IB=fmb+ TIME_EACH_STEP*imB_k3;
+    BSRM.IB_X=f1b+ TIME_EACH_STEP*ixB_k3;
+    BSRM.IB_Y=f2b+ TIME_EACH_STEP*iyB_k3;
+    BSRM.IC=fmc+ TIME_EACH_STEP*imC_k3;
+    BSRM.IC_X=f1c+ TIME_EACH_STEP*ixC_k3;
+    BSRM.IC_Y=f2c+ TIME_EACH_STEP*iyC_k3;
+    
+    
+    dynamics(); // timer.t+1 
+
+    // SINCE THE k4 IS UTILIZED FRO k STEP, SO THERE IS NO VALUE IN RECORDING HTE DATA, JUST CALCULATE THE DERITIVE 
+
+    //MECHNICAL PART DERITIVE
+    w_k4=(BSRM.Tem-BSRM.Tload)/J;
+    theta_k4=BSRM.mech_w;
+    x_k4 = BSRM.x_v;
+    y_k4 = BSRM.y_v;
+    x_v_k4 = (BSRM.x_force-BSRM.X_load)/BSRM.m;
+    y_v_k4 = (BSRM.y_force-BSRM.Y_load)/BSRM.m;
+
+    imA_k4=(CTRL.UA-BSRM.Rm*BSRM.IA-BSRM.mech_w*BSRM.LA_deri_factor*2*Nm*Nm*BSRM.IA)/(BSRM.LA_facotr*2*Nm*Nm);
+    ixA_k4=(CTRL.UA_X-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_X)/(BSRM.LA_facotr*Ns*Ns);
+    iyA_k4=(CTRL.UA_Y-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_Y)/(BSRM.LA_facotr*Ns*Ns);
+
+    imB_k4=(CTRL.UB-BSRM.Rm*BSRM.IB-BSRM.mech_w*BSRM.LB_deri_factor*2*Nm*Nm*BSRM.IB)/(BSRM.LB_facotr*2*Nm*Nm);
+    ixB_k4=(CTRL.UB_X-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_X)/(BSRM.LB_facotr*Ns*Ns);
+    iyB_k4=(CTRL.UB_Y-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_Y)/(BSRM.LB_facotr*Ns*Ns);   
+
+    imC_k4=(CTRL.UC-BSRM.Rm*BSRM.IC-BSRM.mech_w*BSRM.LC_deri_factor*2*Nm*Nm*BSRM.IC)/(BSRM.LC_facotr*2*Nm*Nm);
+    ixC_k4=(CTRL.UC_X-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_X)/(BSRM.LC_facotr*Ns*Ns);
+    iyC_k4=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
+    
+    w_k=(w_k1+2*w_k2+2*w_k2+w_k4)/6;
+    x_k=(x_k1+2*x_k2+2*x_k3+x_k4)/6;
+    y_k=(y_k1+2*y_k2+2*y_k3+y_k4)/6;
+    x_v_k=(x_v_k1+2*x_v_k2+2*x_v_k3+x_v_k4)/6;
+    y_v_k=(y_v_k1+2*y_v_k2+2*y_v_k3+y_v_k4)/6;;
+    theta_k=(theta_k1+2*theta_k2+2*theta_k3+theta_k4)/6;
+    imA_k=(imA_k1+2*imA_k2+2*imA_k3+imA_k4)/6;
+    ixA_k=(ixA_k1+2*ixA_k2+2*ixA_k3+ixA_k4)/6;
+    iyA_k=(iyA_k1+2*iyA_k2+2*iyA_k3+iyA_k4)/6;
+    imB_k=(imB_k1+2*imB_k2+2*imB_k3+imB_k4)/6;
+    ixB_k=(ixB_k1+2*ixB_k2+2*ixB_k3+ixB_k4)/6;
+    iyB_k=(iyB_k1+2*iyB_k2+2*iyB_k3+iyB_k4)/6; 
+    imC_k=(imC_k1+2*imC_k2+2*imC_k3+imC_k4)/6;
+    ixC_k=(ixC_k1+2*ixC_k2+2*ixC_k3+ixC_k4)/6;
+    iyC_k=(iyC_k1+2*iyC_k2+2*iyC_k3+iyC_k4)/6;
 
 
-    BSRM.IA=fma[0]+ TIME_EACH_STEP*imA_k;
-    BSRM.IA_X=f1a[0]+ TIME_EACH_STEP*ixA_k;
-    BSRM.IA_Y=f2a[0]+ TIME_EACH_STEP*iyA_k;
-    BSRM.IB=fmb[0]+ TIME_EACH_STEP*imB_k;
-    BSRM.IB_X=f1b[0]+ TIME_EACH_STEP*ixB_k;
-    BSRM.IB_Y=f2b[0]+ TIME_EACH_STEP*iyB_k;
-    BSRM.IC=fmc[0]+ TIME_EACH_STEP*imC_k;
-    BSRM.IC_X=f1c[0]+ TIME_EACH_STEP*ixC_k;
-    BSRM.IC_Y=f2c[0]+ TIME_EACH_STEP*iyC_k;
+    // FINAL STEP
+    BSRM.mech_angle=f_angle+ TIME_EACH_STEP*theta_k;
+    BSRM.mech_w=f_w+ TIME_EACH_STEP*w_k;
+    BSRM.x_v=fx_v+ TIME_EACH_STEP*x_v_k;
+    BSRM.y_v=fy_v+ TIME_EACH_STEP*y_v_k;
+    BSRM.x_displacement=fx_dis+ TIME_EACH_STEP*x_k;//    BSRM.x_v=BSRM.x_v+ TIME_EACH_STEP*x_k1;
+    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*x_k;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
 
+    BSRM.IA=fma+ TIME_EACH_STEP*imA_k;
+    BSRM.IA_X=f1a+ TIME_EACH_STEP*ixA_k;
+    BSRM.IA_Y=f2a+ TIME_EACH_STEP*iyA_k;
+    BSRM.IB=fmb+ TIME_EACH_STEP*imB_k;
+    BSRM.IB_X=f1b+ TIME_EACH_STEP*ixB_k;
+    BSRM.IB_Y=f2b+ TIME_EACH_STEP*iyB_k;
+    BSRM.IC=fmc+ TIME_EACH_STEP*imC_k;
+    BSRM.IC_X=f1c+ TIME_EACH_STEP*ixC_k;
+    BSRM.IC_Y=f2c+ TIME_EACH_STEP*iyC_k;
+
+    dynamics();
 }
 
 int machine_simulation(int step){ 
@@ -352,7 +470,7 @@ void Machine_init(){
     BSRM.Rs = 0.2;
     BSRM.Um = 12;
     BSRM.Us = 12;
-    BSRM.X_load = 5;
+    BSRM.X_load = 0;
     BSRM.Y_load = 0;
     BSRM.Tload = 0;
     BSRM.mech_w = 0;
@@ -447,7 +565,7 @@ int main(){
 
     int step; // _ for the outer iteration
     
-    for(step=0;step<(NUMBER_OF_STEPS);++step){
+    for(step=0;step<(NUMBER_OF_STEPS/5);++step){
         
         // printf("%d\n", _);
         BSRM.TIME=step*TIME_EACH_STEP;
