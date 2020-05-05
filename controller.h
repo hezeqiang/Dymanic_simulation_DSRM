@@ -3,9 +3,9 @@
 
 
 #define SPEED_LOOP_PID_PROPORTIONAL_GAIN 0.0002
-#define SPEED_LOOP_PID_INTEGRAL 0.0000015
+#define SPEED_LOOP_PID_INTEGRAL 0.000003
 #define SPEED_LOOP_PID_DIREVATIVE 0
-#define SPEED_LOOP_LIMIT_ANGLE pi/24  //6° instead 7.5°
+#define SPEED_LOOP_LIMIT_ANGLE pi/30  //6° instead 7.5°
 
 #define DIS_LOOP_PID_PROPORTIONAL_GAIN 1000000  //sqrt(gain*2*m)=deritive 
 #define DIS_LOOP_PID_INTEGRAL 0
@@ -13,7 +13,7 @@
 #define DIS_LOOP_LIMIT 100
 
 #define CURRENT_HYSTERSIS 0.1
-#define CURRENT_MIAN_WINDINGS 20
+#define CURRENT_MIAN_WINDINGS 15
 
 
 struct PID_Reg{
@@ -30,8 +30,9 @@ struct PID_Reg{
 };
 
 
-double PID(struct PID_Reg *r, double error);
+double PID_Speed(struct PID_Reg *r, double error);
 
+double PID_Dis(struct PID_Reg *r, double error);
 
 struct ControllerForExperiment{
 

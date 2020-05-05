@@ -6,7 +6,7 @@ struct BSRMSimulated BSRM;
 /* Incremental PID Control */
 
 //Tem
-double PID(struct PID_Reg *r, double error){
+double PID_Speed(struct PID_Reg *r, double error){
     // incremental part, available to recalculate for spcifical cut-off frequence
     // the instance is a typical PID control with a limit.
     // in order to satisfy controlling request, the error= speed-speed.command
@@ -32,6 +32,34 @@ double PID(struct PID_Reg *r, double error){
 
 }
 
+//Radial force
+double PID_Dis(struct PID_Reg *r, double error){
+    // incremental part, available to recalculate for spcifical cut-off frequence
+    // the instance is a typical PID control with a limit.
+    // in order to satisfy controlling request, the error= speed-speed.command
+    // refer to https://blog.csdn.net/kilotwo/article/details/79829669
+    if ( fbs(error)<r->cutoff )
+        r->output_incre=r->Kp*(error-r->pre_error)+r->Ki*error+r->Kd*(error-2*r->pre_error+r->prepre_error);
+    else{
+        r->output_incre=r->Kp*(error-r->pre_error)+0*r->Ki*error+r->Kd*(error-2*r->pre_error+r->prepre_error);
+    }  
+    //the absolute output
+    r->output=r->output_incre + r->pre_output;
+    r->pre_output=r->output;//pass the previous value to r->pre_output first then consider the limitation
+
+    // r->limit=pi/24, the maximum advanced open angle
+    if(r->output > r->limit)  
+        r->output = r->limit;
+    else if(r->output <= -r->limit)
+        r->output = -r->limit;
+    
+    r->prepre_error=r->pre_error;
+    r->pre_error=error;
+    return r->output;
+
+}
+
+
 /* Initialization */
 struct ControllerForExperiment CTRL;
 
@@ -42,8 +70,8 @@ void CTRL_init(){
     CTRL.m=BSRM.m;
     CTRL.rpm_cmd = 2000 ;// rpm command
     CTRL.advance_angle=0;
-    CTRL.main_current= 8.0;
-    CTRL.current_hystersis= 0.2 ;
+    CTRL.main_current= 15;
+    CTRL.current_hystersis= 0.1 ;
     CTRL.ctrl_count=0;
     CTRL.MAX_DIS=8;
     
@@ -308,12 +336,12 @@ void control(int step){
         ctrl_judge=0;
         CTRL.ctrl_count++;
         // Input 1 is feedback: measured speed
-        CTRL.advance_angle=PID(&CTRL.PID_speed,CTRL.rpm-CTRL.rpm_cmd);//CTRL.rpm_cmd
+        CTRL.advance_angle=PID_Speed(&CTRL.PID_speed,CTRL.rpm-CTRL.rpm_cmd);//CTRL.rpm_cmd
         
         // Input 2 is feedback: measured current in x
-        CTRL.x_force=PID(&CTRL.PID_disx,-CTRL.x_displacement);
+        CTRL.x_force=PID_Dis(&CTRL.PID_disx,-CTRL.x_displacement);
         // Input 3  is feedback: measured current in y
-        CTRL.y_force=PID(&CTRL.PID_disy,-CTRL.y_displacement);
+        CTRL.y_force=PID_Dis(&CTRL.PID_disy,-CTRL.y_displacement);
 
         //force_axis_transfer
         CTRL.x_force_A=CTRL.x_force;

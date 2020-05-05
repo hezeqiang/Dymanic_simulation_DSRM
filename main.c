@@ -589,9 +589,11 @@ int main(){
 
         //this part is realized by anolog circuit @ a very high frequency
         //commutation logical judgement and circuit control
+
         circuit_main_A();
         circuit_main_B();
         circuit_main_C();
+
          
     }
     
@@ -612,7 +614,6 @@ int main(){
 //  please use the command goes  
 //  gcc main.c controller.c observer.c -o info
 //  then run info.exe 
-
 
 
 // del info.exe
