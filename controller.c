@@ -339,9 +339,9 @@ void control(int step){
         CTRL.advance_angle=PID_Speed(&CTRL.PID_speed,CTRL.rpm-CTRL.rpm_cmd);//CTRL.rpm_cmd
         
         // Input 2 is feedback: measured current in x
-        CTRL.x_force=PID_Dis(&CTRL.PID_disx,-CTRL.x_displacement);
+        CTRL.x_force=PID_Dis(&CTRL.PID_disx,-CTRL.x_displacement*1000000);
         // Input 3  is feedback: measured current in y
-        CTRL.y_force=PID_Dis(&CTRL.PID_disy,-CTRL.y_displacement);
+        CTRL.y_force=PID_Dis(&CTRL.PID_disy,-CTRL.y_displacement*1000000);
 
         //force_axis_transfer
         CTRL.x_force_A=CTRL.x_force;

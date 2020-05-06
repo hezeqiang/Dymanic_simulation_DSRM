@@ -34,7 +34,7 @@ void write_data_to_file(FILE *fw){
             write_judge=0;
             // no space is allowed!!!23
             fprintf(fw, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",
-                    BSRM.rpm,BSRM.IA,BSRM.IB,BSRM.IC,BSRM.angle_A,BSRM.mech_angle,BSRM.Tem_A,BSRM.Tem_B,BSRM.Tem_C,BSRM.IB_X,BSRM.IB_Y,CTRL.IB_X,CTRL.IB_Y,BSRM.IA_X,BSRM.IA_Y,CTRL.IA_X,CTRL.IA_Y,CTRL.x_force,CTRL.y_force,BSRM.x_force,BSRM.y_force,CTRL.x_force_B,CTRL.x_force_C,BSRM.x_displacement,BSRM.y_displacement,CTRL.x_displacement,CTRL.y_displacement,CTRL.rpm,BSRM.x_v,BSRM.y_v,BSRM.X_load,BSRM.Y_load,CTRL.advance_angle,CTRL.angle_A
+                    BSRM.rpm,BSRM.IA,BSRM.IB,BSRM.IC,BSRM.angle_A,BSRM.mech_angle,BSRM.Tem_A,BSRM.Tem_B,BSRM.Tem_C,BSRM.IB_X,BSRM.IB_Y,CTRL.IB_X,CTRL.IB_Y,BSRM.IA_X,BSRM.IA_Y,CTRL.IA_X,CTRL.IA_Y,CTRL.x_force,CTRL.y_force,BSRM.x_force,BSRM.y_force,CTRL.x_force_B,CTRL.x_force_C,BSRM.x_displacement*1000000,BSRM.y_displacement*1000000,CTRL.x_displacement*1000000,CTRL.y_displacement*1000000,CTRL.rpm,BSRM.x_v,BSRM.y_v,BSRM.X_load,BSRM.Y_load,CTRL.advance_angle,CTRL.angle_A
                     );
         }
         

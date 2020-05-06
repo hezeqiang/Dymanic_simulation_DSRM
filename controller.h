@@ -7,9 +7,9 @@
 #define SPEED_LOOP_PID_DIREVATIVE 0
 #define SPEED_LOOP_LIMIT_ANGLE pi/30  //6° instead 7.5°
 
-#define DIS_LOOP_PID_PROPORTIONAL_GAIN 1000000  //sqrt(gain*2*m)=deritive 
+#define DIS_LOOP_PID_PROPORTIONAL_GAIN 1  //sqrt(gain*2*m)=deritive 
 #define DIS_LOOP_PID_INTEGRAL 0
-#define DIS_LOOP_PID_DIREVATIVE 800
+#define DIS_LOOP_PID_DIREVATIVE 0.0008
 #define DIS_LOOP_LIMIT 100
 
 #define CURRENT_HYSTERSIS 0.1
