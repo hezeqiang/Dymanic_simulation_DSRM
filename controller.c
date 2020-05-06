@@ -3,8 +3,9 @@
 
 
 struct BSRMSimulated BSRM;
-/* Incremental PID Control */
+struct ControllerForExperiment CTRL;
 
+/* Incremental PID Control */
 //Tem
 double PID_Speed(struct PID_Reg *r, double error){
     // incremental part, available to recalculate for spcifical cut-off frequence
@@ -60,9 +61,8 @@ double PID_Dis(struct PID_Reg *r, double error){
 }
 
 
-/* Initialization */
-struct ControllerForExperiment CTRL;
 
+/* Initialization */
 void CTRL_init(){
     //initial measurement before motor start 
     CTRL.mech_angle = BSRM.mech_angle;
@@ -90,6 +90,7 @@ void CTRL_init(){
     CTRL.IB_X=BSRM.IB_Y;
     CTRL.IC_X=BSRM.IC_X;
     CTRL.IC_Y=BSRM.IC_Y;
+
 
     CTRL.Kf1_A=BSRM.Kf1_A;
     CTRL.Kf2_A=BSRM.Kf2_A;
@@ -169,6 +170,8 @@ void CTRL_init(){
 }
 
 void circuit_main_A(){
+
+    
     //  when the A phase is on
     if (CTRL.angle_A>CTRL.advance_angle-pi/24 && CTRL.angle_A<CTRL.advance_angle+pi/24){
      
@@ -196,29 +199,55 @@ void circuit_main_A(){
             CTRL.UA=0;
         }
         
-        if(BSRM.IA_X>0.05){
-            CTRL.UA_X=-CTRL.Us;
+        if(BSRM.IA_X>0){
+            if(sign(BSRM.IA_X) == sign(BSRM.IA_X_pre)){
+                CTRL.UA_X=-CTRL.Us;
+            }
+            else{
+                CTRL.UA_X=0;
+                BSRM.IA_X=0;
+            }
         }
-        else if(BSRM.IA_X<-0.05){
-            CTRL.UA_X=CTRL.Us;
+        else if(BSRM.IA_X<0){
+            if (sign(BSRM.IA_X) == sign(BSRM.IA_X_pre)){
+                CTRL.UA_X=CTRL.Us;
+            }
+            else{
+                CTRL.UA_X=0;
+                BSRM.IA_X=0;
+            }
         }
         else{
             CTRL.UA_X=0;
             BSRM.IA_X=0;
         }
         
-        if(BSRM.IA_Y>0.05){
-            CTRL.UA_Y=-CTRL.Us;
+        if(BSRM.IA_Y>0){
+            if(sign(BSRM.IA_Y) == sign(BSRM.IA_Y_pre)){
+                CTRL.UA_Y=-CTRL.Us;
+            }
+            else{
+                CTRL.UA_Y=0;
+                BSRM.IA_Y=0;
+            }
         }
-        else if(BSRM.IA_Y<-0.05){
-            CTRL.UA_Y=CTRL.Us;
+        else if(BSRM.IA_Y<0){
+            if (sign(BSRM.IA_Y) == sign(BSRM.IA_Y_pre)){
+                CTRL.UA_Y=CTRL.Us;
+            }
+            else{
+                CTRL.UA_Y=0;
+                BSRM.IA_Y=0;
+            }
         }
         else{
             CTRL.UA_Y=0;
             BSRM.IA_Y=0;
         }
-                   
+        
     }
+    BSRM.IA_X_pre=BSRM.IA_X;
+    BSRM.IA_Y_pre=BSRM.IA_Y; 
 }
 
 void circuit_main_B(){
@@ -248,30 +277,56 @@ void circuit_main_B(){
             CTRL.UB=0;
         }
         
-        if(BSRM.IB_X>0.05){
-            CTRL.UB_X=-CTRL.Us;
+        if(BSRM.IB_X>0){
+            if(sign(BSRM.IB_X) == sign(BSRM.IB_X_pre)){
+                CTRL.UB_X=-CTRL.Us;
+            }
+            else{
+                CTRL.UB_X=0;
+                BSRM.IB_X=0;
+            }
         }
-        else if(BSRM.IB_X<-0.05){
-            CTRL.UB_X=CTRL.Us;
+        else if(BSRM.IB_X<0){
+            if (sign(BSRM.IB_X) == sign(BSRM.IB_X_pre)){
+                CTRL.UB_X=CTRL.Us;
+            }
+            else{
+                CTRL.UB_X=0;
+                BSRM.IB_X=0;
+            }
         }
         else{
             CTRL.UB_X=0;
             BSRM.IB_X=0;
         }
-
-        if(BSRM.IB_Y>0.05){
-            CTRL.UB_Y=-CTRL.Us;
+        
+        if(BSRM.IB_Y>0){
+            if(sign(BSRM.IB_Y) == sign(BSRM.IB_Y_pre)){
+                CTRL.UB_Y=-CTRL.Us;
+            }
+            else{
+                CTRL.UB_Y=0;
+                BSRM.IB_Y=0;
+            }
         }
-        else if(BSRM.IB_Y<-0.05){
-            CTRL.UB_Y=CTRL.Us;
+        else if(BSRM.IB_Y<0){
+            if (sign(BSRM.IB_Y) == sign(BSRM.IB_Y_pre)){
+                CTRL.UB_Y=CTRL.Us;
+            }
+            else{
+                CTRL.UB_Y=0;
+                BSRM.IB_Y=0;
+            }
         }
         else{
             CTRL.UB_Y=0;
             BSRM.IB_Y=0;
         }
-                   
-    }
 
+                
+    }
+    BSRM.IB_X_pre=BSRM.IB_X;
+    BSRM.IB_Y_pre=BSRM.IB_Y;  
 }
 
 void circuit_main_C(){
@@ -302,30 +357,55 @@ void circuit_main_C(){
         }
         
         
-        if(BSRM.IC_X>0.05){
-            CTRL.UC_X=-CTRL.Us;
+        if(BSRM.IC_X>0){
+            if(sign(BSRM.IC_X) == sign(BSRM.IC_X_pre)){
+                CTRL.UC_X=-CTRL.Us;
+            }
+            else{
+                CTRL.UC_X=0;
+                BSRM.IC_X=0;
+            }
         }
-        else if(BSRM.IC_X<-0.05){
-            CTRL.UC_X=CTRL.Us;
+        else if(BSRM.IC_X<0){
+            if (sign(BSRM.IC_X) == sign(BSRM.IC_X_pre)){
+                CTRL.UC_X=CTRL.Us;
+            }
+            else{
+                CTRL.UC_X=0;
+                BSRM.IC_X=0;
+            }
         }
         else{
             CTRL.UC_X=0;
             BSRM.IC_X=0;
-
         }
-
-        if(BSRM.IC_Y>0.05){
-            CTRL.UC_Y=-CTRL.Us;
+        
+        if(BSRM.IC_Y>0){
+            if(sign(BSRM.IC_Y) == sign(BSRM.IC_Y_pre)){
+                CTRL.UC_Y=-CTRL.Us;
+            }
+            else{
+                CTRL.UC_Y=0;
+                BSRM.IC_Y=0;
+            }
         }
-        else if(BSRM.IC_Y<-0.05){
-            CTRL.UC_Y=CTRL.Us;
+        else if(BSRM.IC_Y<0){
+            if (sign(BSRM.IC_Y) == sign(BSRM.IC_Y_pre)){
+                CTRL.UC_Y=CTRL.Us;
+            }
+            else{
+                CTRL.UC_Y=0;
+                BSRM.IC_Y=0;
+            }
         }
         else{
             CTRL.UC_Y=0;
             BSRM.IC_Y=0;
-        }       
+        }
     }
-    
+
+    BSRM.IC_X_pre=BSRM.IC_X;
+    BSRM.IC_Y_pre=BSRM.IC_Y;    
 }
 
 void control(int step){

@@ -143,6 +143,12 @@ struct BSRMSimulated{
     double IA_Y;
     double IB_Y;
     double IC_Y;
+    double IA_X_pre;
+    double IB_X_pre;
+    double IC_X_pre;
+    double IA_Y_pre;
+    double IB_Y_pre;
+    double IC_Y_pre;
 };
 extern struct BSRMSimulated BSRM;
 

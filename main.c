@@ -8,7 +8,7 @@ struct ControllerForExperiment CTRL;
 void write_header_to_file(FILE *fw){// include the explaination of data imformation
     // no space is allowed!
     //BSRM.IA(Current)[A],BSRM.IA_X(Current)[A],BSRM.IA_Y(Current)[A],BSRM.IB(Current)[A],BSRM.IC(Current)[A],BSRM.Kf1_A(Factor),BSRM.Kf2_A(Factor),BSRM.LA(Inductance)[H],BSRM.mech_angle(position)[rad],BSRM.rpm(Speed)[rpm],BSRM.rpm_cmd(Speed)[rpm],BSRM.Tem(Torque)[N*m],CTRL.UA(Voltage)[V],CTRL.UA_X(Voltage)[V],CTRL.UA_Y(Voltage)[V],CTRL.UB(Voltage)[V],CTRL.UC(Voltage)[V],BSRM.Tem,BSRM.Tem_A,BSRM.Tem_B,BSRM.Tem_C,BSRM.Tload,BSRM.mech_angle,BSRM.timebase(Time)[s],CTRL.advance_angle(Angle)[rad],CTRL.angle_A(Angle)[rad],CTRL.mech_angle(Angle)[rad],CTRL.rpm(Speed)[rpm],CTRL.UA\n"
-    fprintf(fw, "BSRM.rpm,BSRM.IA,BSRM.IB,BSRM.IC,BSRM.angle_A,BSRM.mech_angle,BSRM.Tem_A,BSRM.Tem_B,BSRM.Tem_C,BSRM.IB_X,BSRM.IB_Y,CTRL.IB_X,CTRL.IB_Y,BSRM.IA_X,BSRM.IA_Y,CTRL.IA_X,CTRL.IA_Y,CTRL.x_force,CTRL.y_force,BSRM.x_force,BSRM.y_force,CTRL.x_force_B,CTRL.x_force_C,BSRM.x_displacement,BSRM.y_displacement,CTRL.x_displacement,CTRL.y_displacement,CTRL.rpm,BSRM.x_v,BSRM.y_v,BSRM.X_load,BSRM.Y_load,CTRL.advance_angle,CTRL.angle_A\n");    
+    fprintf(fw, "BSRM.rpm,BSRM.IA,BSRM.IB,BSRM.IC,BSRM.angle_A,BSRM.mech_angle,BSRM.Tem_A,BSRM.Tem_B,BSRM.Tem_C,BSRM.IB_X,BSRM.IB_Y,CTRL.IB_X,CTRL.IB_Y,BSRM.IA_X,BSRM.IA_Y,CTRL.IA_X,CTRL.IA_Y,CTRL.x_force,CTRL.y_force,BSRM.x_force,BSRM.y_force,CTRL.x_force_B,CTRL.x_force_C,BSRM.x_displacement /(um),BSRM.y_displacement /(um),CTRL.x_displacement /(um),CTRL.y_displacement /(um),CTRL.rpm,BSRM.x_v,BSRM.y_v,BSRM.X_load,BSRM.Y_load,CTRL.advance_angle,CTRL.angle_A\n");    
     {
         FILE *fw2;
         fw2 = fopen("info.dat", "w");   //create a new file named info.dat
@@ -21,6 +21,14 @@ void write_header_to_file(FILE *fw){// include the explaination of data imformat
         //%s   string
         fclose(fw2);
     }
+    {
+        FILE *fw3;
+        fw3 = fopen("title.txt", "w");   //create a new file named title.txt
+        fprintf(fw3, "\n");
+
+        fclose(fw3);
+    }
+
 }
 
 void write_data_to_file(FILE *fw){
@@ -52,7 +60,6 @@ int isNumber(double x){
 double sign(double x){
     return (x > 0) - (x < 0);    
 }
-
 
 
 void angle_trans(double mech_angle){
@@ -483,12 +490,18 @@ void Machine_init(){
     BSRM.IA = 0;
     BSRM.IA_X = 0;
     BSRM.IA_Y = 0;
+    BSRM.IA_X_pre=0;
+    BSRM.IA_Y_pre=0;
     BSRM.IB = 0;
     BSRM.IB_X = 0;
     BSRM.IB_Y = 0;
+    BSRM.IB_X_pre=0;
+    BSRM.IB_Y_pre=0;
     BSRM.IC = 0;
     BSRM.IC_X = 0;
     BSRM.IC_Y = 0;
+    BSRM.IC_X_pre=0;
+    BSRM.IC_Y_pre=0;
 
     angle_trans(BSRM.mech_angle);
     dynamics(); // 0s
@@ -533,6 +546,7 @@ void measurement_quick(){
    
     BSRM.rpm=BSRM.mech_w*60/2/pi;
 }
+
 
 int main(){
     
