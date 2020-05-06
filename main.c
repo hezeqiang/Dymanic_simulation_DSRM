@@ -23,14 +23,8 @@ void write_header_to_file(FILE *fw){// include the explaination of data imformat
     }
     {
         FILE *fw3;
-<<<<<<< Updated upstream
         fw3 = fopen("title.txt", "w");   //create a new file named title.txt
-        fprintf(fw3, "\n");
-
-=======
-        fw3 = fopen("title.txt.dat", "w");   //create a new file named info.dat
         fprintf(fw3, "wait for input\n");
->>>>>>> Stashed changes
         fclose(fw3);
     }
 
