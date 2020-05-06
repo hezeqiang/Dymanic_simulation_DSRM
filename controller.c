@@ -170,7 +170,6 @@ void CTRL_init(){
 }
 
 void circuit_main_A(){
-
     
     //  when the A phase is on
     if (CTRL.angle_A>CTRL.advance_angle-pi/24 && CTRL.angle_A<CTRL.advance_angle+pi/24){

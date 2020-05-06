@@ -68,7 +68,7 @@ def get_axis():
 
     #figure ax size setting
 
-    return axes
+    return  axes
 
 def plot_key(ax, key, df):
     # plot the curve with time as x and values as y
@@ -95,6 +95,7 @@ def plot_it(ax, ylabel, d, time=None):
     # plt.text(0.5 * (a+b), 1, r"$\int_a^b f(x)\mathrm{d}x$")
     # LaTex insert
     # r""for LaTex, $$ for equation
+    # plt.savefig('python_C_model_with_radial_control_fail/'+ylabel + '.png')
 
     # ax.set_xlim(0,35) # shared x
     # ax.set_ylim(0.85,1.45)
