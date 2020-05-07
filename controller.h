@@ -7,9 +7,9 @@
 #define SPEED_LOOP_PID_DIREVATIVE 0
 #define SPEED_LOOP_LIMIT_ANGLE pi/30  //6° instead 7.5°
 
-#define DIS_LOOP_PID_PROPORTIONAL_GAIN 1  //sqrt(gain*2*m)=deritive 
-#define DIS_LOOP_PID_INTEGRAL 0
-#define DIS_LOOP_PID_DIREVATIVE 0.0008
+#define DIS_LOOP_PID_PROPORTIONAL_GAIN 10  //sqrt(gain*2*m)=deritive 
+#define DIS_LOOP_PID_INTEGRAL 40
+#define DIS_LOOP_PID_DIREVATIVE 200
 #define DIS_LOOP_LIMIT 100
 
 #define CURRENT_HYSTERSIS 0.1
@@ -20,10 +20,13 @@ struct PID_Reg{
    double Kp; // Proportional gain
    double Ki; // Integral 
    double Kd; // Differential 
+   double Kd_up;
+   double Kd_down;
    double limit; // Output limit
    double pre_error;
    double prepre_error;
    double pre_output;
+   double prepre_output;
    double output_incre;
    double output;
    double cutoff;

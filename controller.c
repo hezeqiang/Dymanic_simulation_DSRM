@@ -40,12 +40,13 @@ double PID_Dis(struct PID_Reg *r, double error){
     // in order to satisfy controlling request, the error= speed-speed.command
     // refer to https://blog.csdn.net/kilotwo/article/details/79829669
     if ( fbs(error)<r->cutoff )
-        r->output_incre=r->Kp*(error-r->pre_error)+r->Ki*error+r->Kd*(error-2*r->pre_error+r->prepre_error);
+        r->output_incre=r->Kp*(error-r->pre_error)+r->Ki*error+r->Kd*(error-2*r->pre_error+r->prepre_error); //CTRL_FRE
     else{
         r->output_incre=r->Kp*(error-r->pre_error)+0*r->Ki*error+r->Kd*(error-2*r->pre_error+r->prepre_error);
     }  
     //the absolute output
     r->output=r->output_incre + r->pre_output;
+    r->prepre_output=r->pre_output;
     r->pre_output=r->output;//pass the previous value to r->pre_output first then consider the limitation
 
     // r->limit=pi/24, the maximum advanced open angle
@@ -59,7 +60,6 @@ double PID_Dis(struct PID_Reg *r, double error){
     return r->output;
 
 }
-
 
 
 /* Initialization */
@@ -148,10 +148,14 @@ void CTRL_init(){
     CTRL.PID_disx.Kp = DIS_LOOP_PID_PROPORTIONAL_GAIN;
     CTRL.PID_disx.Ki = DIS_LOOP_PID_INTEGRAL;
     CTRL.PID_disx.Kd = DIS_LOOP_PID_DIREVATIVE;
+    CTRL.PID_disx.Kd_up = 0.01;
+    CTRL.PID_disx.Kd_down = 0.000001;
     CTRL.PID_disx.limit = DIS_LOOP_LIMIT;
+    
     CTRL.PID_disx.prepre_error= 0.0;
     CTRL.PID_disx.pre_error= 0.0;
     CTRL.PID_disx.pre_output=0.0;
+    CTRL.PID_disx.prepre_output=0.0;
     CTRL.PID_disx.output=0.0;
     CTRL.PID_disx.cutoff=0.00001;
     printf("displacement x PID: Kp=%f, Ki=%f, Kd=%f, limit=%f Nm\n",CTRL.PID_disx.Kp, CTRL.PID_disx.Ki,CTRL.PID_disx.Kd, CTRL.PID_disx.limit);
@@ -159,12 +163,15 @@ void CTRL_init(){
     CTRL.PID_disy.Kp = DIS_LOOP_PID_PROPORTIONAL_GAIN;
     CTRL.PID_disy.Ki = DIS_LOOP_PID_INTEGRAL;
     CTRL.PID_disy.Kd = DIS_LOOP_PID_DIREVATIVE;
+    CTRL.PID_disy.Kd_up = 0.01;
+    CTRL.PID_disy.Kd_down = 0.000001;
     CTRL.PID_disy.limit = DIS_LOOP_LIMIT;
+    
     CTRL.PID_disy.prepre_error= 0.0;
     CTRL.PID_disy.pre_error= 0.0;
-
     CTRL.PID_disy.pre_output=0.0;
     CTRL.PID_disy.output=0.0;
+    CTRL.PID_disy.prepre_output=0.0;
     CTRL.PID_disy.cutoff=0.00001;
     printf("displacement y PID: Kp=%f, Ki=%f, Kd=%f, limit=%f Nm\n", CTRL.PID_disy.Kp, CTRL.PID_disy.Ki,CTRL.PID_disy.Kd, CTRL.PID_disy.limit);
 }
