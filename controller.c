@@ -70,10 +70,10 @@ void CTRL_init(){
     CTRL.m=BSRM.m;
     CTRL.rpm_cmd = 2000 ;// rpm command
     CTRL.advance_angle=0;
-    CTRL.main_current= 15;
+    CTRL.main_current= CURRENT_MIAN_WINDINGS;
     CTRL.current_hystersis= 0.1 ;
     CTRL.ctrl_count=0;
-    CTRL.MAX_DIS=8;
+    CTRL.MAX_DIS=10;
     
     CTRL.Rm=BSRM.Rm;
     CTRL.Rs=BSRM.Rs;
@@ -86,8 +86,8 @@ void CTRL_init(){
 
     CTRL.IA_X=BSRM.IA_X;
     CTRL.IA_Y=BSRM.IA_Y;
-    CTRL.IB_X=BSRM.IB_Y;
-    CTRL.IB_X=BSRM.IB_Y;
+    CTRL.IB_X=BSRM.IB_X;
+    CTRL.IB_Y=BSRM.IB_Y;
     CTRL.IC_X=BSRM.IC_X;
     CTRL.IC_Y=BSRM.IC_Y;
 
@@ -190,7 +190,7 @@ void circuit_main_A(){
         else {}
 
         if(BSRM.IA_Y<CTRL.IA_Y-CTRL.current_hystersis) {CTRL.UA_Y=CTRL.Us;}
-        else if(BSRM.IA_X>CTRL.IA_X+CTRL.current_hystersis){CTRL.UA_Y=-CTRL.Us;}
+        else if(BSRM.IA_Y>CTRL.IA_Y+CTRL.current_hystersis){CTRL.UA_Y=-CTRL.Us;}
         else {}
 
     }
@@ -268,7 +268,7 @@ void circuit_main_B(){
         else {}
 
         if(BSRM.IB_Y<CTRL.IB_Y-CTRL.current_hystersis) {CTRL.UB_Y=CTRL.Us;}
-        else if(BSRM.IB_X>CTRL.IB_X+CTRL.current_hystersis){CTRL.UB_Y=-CTRL.Us;}
+        else if(BSRM.IB_Y>CTRL.IB_Y+CTRL.current_hystersis){CTRL.UB_Y=-CTRL.Us;}
         else {}
  
     }
@@ -348,7 +348,7 @@ void circuit_main_C(){
         else {}
 
         if(BSRM.IC_Y<CTRL.IC_Y-CTRL.current_hystersis) {CTRL.UC_Y=CTRL.Us;}
-        else if(BSRM.IC_X>CTRL.IC_X+CTRL.current_hystersis){CTRL.UC_Y=-CTRL.Us;}
+        else if(BSRM.IC_Y>CTRL.IC_Y+CTRL.current_hystersis){CTRL.UC_Y=-CTRL.Us;}
         else {}
     
     }
@@ -425,9 +425,9 @@ void control(int step){
         CTRL.advance_angle=PID_Speed(&CTRL.PID_speed,CTRL.rpm-CTRL.rpm_cmd);//CTRL.rpm_cmd
         
         // Input 2 is feedback: measured current in x
-        CTRL.x_force=PID_Dis(&CTRL.PID_disx,-CTRL.x_displacement*1000000);
+        CTRL.x_force=PID_Dis(&CTRL.PID_disx,-CTRL.x_displacement*10000);
         // Input 3  is feedback: measured current in y
-        CTRL.y_force=PID_Dis(&CTRL.PID_disy,-CTRL.y_displacement*1000000);
+        CTRL.y_force=PID_Dis(&CTRL.PID_disy,-CTRL.y_displacement*10000);
 
         //force_axis_transfer
         CTRL.x_force_A=CTRL.x_force;

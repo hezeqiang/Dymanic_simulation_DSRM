@@ -205,8 +205,8 @@ void dynamics(){
     cal_L_deri_factor_C(-fbs(BSRM.angle_C),BSRM.angle_C);
 
     BSRM.Tem=BSRM.Tem_A+BSRM.Tem_B+BSRM.Tem_C;
-    BSRM.x_force= BSRM.x_force_A+(BSRM.x_force_B+BSRM.x_force_C)*sqrt3/2+(-BSRM.y_force_B+BSRM.y_force_C)*1/2;
-    BSRM.y_force= BSRM.y_force_A+(BSRM.y_force_B+BSRM.y_force_C)*sqrt3/2+(BSRM.x_force_B-BSRM.x_force_C)*1/2;
+    BSRM.x_force= BSRM.x_force_A+(BSRM.x_force_B+BSRM.x_force_C)*sqrt3/2+(-BSRM.y_force_B+BSRM.y_force_C)*1/2+130000*BSRM.x_displacement;
+    BSRM.y_force= BSRM.y_force_A+(BSRM.y_force_B+BSRM.y_force_C)*sqrt3/2+(BSRM.x_force_B-BSRM.x_force_C)*1/2+130000*BSRM.y_displacement;
 
     
 }
@@ -287,7 +287,7 @@ void Range_Kuta(int step){
     BSRM.x_v=fx_v+ TIME_EACH_STEP*x_v_k1/2;
     BSRM.y_v=fy_v+ TIME_EACH_STEP*y_v_k1/2;
     BSRM.x_displacement=fx_dis+ TIME_EACH_STEP*x_k1/2;//    BSRM.x_v=BSRM.x_v+ TIME_EACH_STEP*x_k1;
-    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*x_k1/2;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
+    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*y_k1/2;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
 
     BSRM.IA=fma+ TIME_EACH_STEP*imA_k1/2;
     BSRM.IA_X=f1a+ TIME_EACH_STEP*ixA_k1/2;
@@ -330,7 +330,7 @@ void Range_Kuta(int step){
     BSRM.x_v=fx_v+ TIME_EACH_STEP*x_v_k2/2;
     BSRM.y_v=fy_v+ TIME_EACH_STEP*y_v_k2/2;
     BSRM.x_displacement=fx_dis+ TIME_EACH_STEP*x_k2/2;//    BSRM.x_v=BSRM.x_v+ TIME_EACH_STEP*x_k1;
-    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*x_k2/2;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
+    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*y_k2/2;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
 
     BSRM.IA=fma+ TIME_EACH_STEP*imA_k2/2;
     BSRM.IA_X=f1a+ TIME_EACH_STEP*ixA_k2/2;
@@ -373,7 +373,7 @@ void Range_Kuta(int step){
     BSRM.x_v=fx_v+ TIME_EACH_STEP*x_v_k3;
     BSRM.y_v=fy_v+ TIME_EACH_STEP*y_v_k3;
     BSRM.x_displacement=fx_dis+ TIME_EACH_STEP*x_k3;//    BSRM.x_v=BSRM.x_v+ TIME_EACH_STEP*x_k1;
-    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*x_k3;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
+    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*y_k3;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
 
     BSRM.IA=fma+ TIME_EACH_STEP*imA_k3;
     BSRM.IA_X=f1a+ TIME_EACH_STEP*ixA_k3;
@@ -433,7 +433,7 @@ void Range_Kuta(int step){
     BSRM.x_v=fx_v+ TIME_EACH_STEP*x_v_k;
     BSRM.y_v=fy_v+ TIME_EACH_STEP*y_v_k;
     BSRM.x_displacement=fx_dis+ TIME_EACH_STEP*x_k;//    BSRM.x_v=BSRM.x_v+ TIME_EACH_STEP*x_k1;
-    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*x_k;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
+    BSRM.y_displacement=fy_dis+ TIME_EACH_STEP*y_k;//    BSRM.y_v=BSRM.y_v+ TIME_EACH_STEP*y_k1;
 
     BSRM.IA=fma+ TIME_EACH_STEP*imA_k;
     BSRM.IA_X=f1a+ TIME_EACH_STEP*ixA_k;
@@ -477,7 +477,7 @@ void Machine_init(){
     BSRM.Um = 12;
     BSRM.Us = 12;
     BSRM.X_load = 0.2;
-    BSRM.Y_load = 0.2;
+    BSRM.Y_load = 0;
     BSRM.Tload = 0;
     BSRM.mech_w = 0;
     BSRM.mech_angle = pi/24;
