@@ -91,7 +91,7 @@ def plot_it(ax, ylabel, d, time=None):
     # ax.legend(bbox_to_anchor=(1.08,0.5), borderaxespad=0., loc='center', shadow=True)
     ax.set_ylabel(ylabel,fontdict=font)
     ax.set_xlabel('Time /(second)',fontdict=font)
-    #   ax.set_title(title_fig[ID_x],fontdict=font_title ,loc='center' )
+    ax.set_title(title_fig[ID_x],fontdict=font_title ,loc='center' )
     # plt.text(0.5 * (a+b), 1, r"$\int_a^b f(x)\mathrm{d}x$")
     # LaTex insert
     # r""for LaTex, $$ for equation
@@ -111,11 +111,11 @@ if __name__ == '__main__':
     df_profiles = pd.read_csv(data_file_name, na_values = ['1.#QNAN', '-1#INF00', '-1#IND00'])
     #   read the data file containing the simulation results.
 
-#    df_title = pd.read_csv('title.txt', na_values=['1.#QNAN', '-1#INF00', '-1#IND00'])
-#    title_fig=list()
-#    for key in df_title.keys():
-#        title_fig.append(key)
-#        print(key)
+    df_title = pd.read_csv('title.txt', na_values=['1.#QNAN', '-1#INF00', '-1#IND00'])
+    title_fig=list()
+    for key in df_title.keys():
+        title_fig.append(key)
+        print(key)
 
     no_samples = df_profiles.shape[0]
     # get number of rows
