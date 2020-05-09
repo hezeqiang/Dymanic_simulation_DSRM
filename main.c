@@ -452,8 +452,17 @@ int machine_simulation(int step){
     /* Load Torque */
     // BSRM.Tload = 0 * sign(BSRM.rpm); // No-load test
     // BSRM.Tload = BSRM.Tem; // Blocked-rotor test
-    BSRM.Tload = 0.001 * sign(BSRM.rpm)+friction_factor*(BSRM.rpm);
     
+    if (step<(NUMBER_OF_STEPS/4)){
+        BSRM.Tload = 0.01 * friction_factor * (BSRM.rpm);
+    }
+    else{
+        BSRM.Tload = 0.003 * sign(BSRM.rpm)+  0.01 * friction_factor * (BSRM.rpm);
+    }
+    
+   
+   
+    BSRM.X_load = 1*sin(2*pi/1*BSRM.TIME);
     // solve for BSRM.x with force and torque, inputs STEP
     Range_Kuta(step);
     //ALL OF THE IMFORMATION IS STORED IN BSRM.
@@ -474,8 +483,8 @@ void Machine_init(){
     BSRM.Rm = 0.4;
     BSRM.Rs = 0.2;
     BSRM.Um = 12;
-    BSRM.Us = 12;
-    BSRM.X_load = 1;
+    BSRM.Us = 6;
+    BSRM.X_load = 0;
     BSRM.Y_load = 0;
     BSRM.Tload = 0;
     BSRM.mech_w = 0;
@@ -567,7 +576,7 @@ int main(){
 
     int step; // _ for the outer iteration
     
-    for(step=0;step<(NUMBER_OF_STEPS/5);++step){
+    for(step=0;step<(NUMBER_OF_STEPS/2);++step){
         
         // printf("%d\n", _);
         BSRM.TIME=step*TIME_EACH_STEP;
@@ -602,10 +611,11 @@ int main(){
         //this part is realized by anolog circuit @ a very high frequency
         //commutation logical judgement and circuit control
 
-        circuit_main_A();
-        circuit_main_B();
-        circuit_main_C();
-
+        if (step%4==0){
+            circuit_main_A();
+            circuit_main_B();
+            circuit_main_C();
+        }
          
     }
     
