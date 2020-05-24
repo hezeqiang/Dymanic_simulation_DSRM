@@ -89,7 +89,8 @@ def plot_it(ax, ylabel, d, time=None):
     # a.plot(x1, y1, 'g^', x2, y2, 'g-')
     # ax.legend(loc='lower right', shadow=True)
     # ax.legend(bbox_to_anchor=(1.08,0.5), borderaxespad=0., loc='center', shadow=True)
-
+    # use gca get the current axis
+    # use gcf get the current figure
     ax.set_ylabel(ylabel,fontdict=font)
     ax.set_xlabel('Time /(second)',fontdict=font)
     ax.set_title(title_fig[ID_x],fontdict=font_title ,loc='center' )
