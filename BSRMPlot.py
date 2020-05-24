@@ -17,7 +17,7 @@ from io import BytesIO
 #produce a one-demesion array between （0，5） containing 4 element
 #a = np.random.randint(0, 5, (4,))
 #plt.style.available print all available style in plt
-style = np.random.choice(plt.style.available);print(style);
+style = np.random.choice(plt.style.available);print(style)
 #use specific style named ggplot
 plt.style.use( 'classic')
 #frequently used style
