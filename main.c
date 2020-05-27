@@ -626,12 +626,12 @@ int main(){
 
     fclose(fw);
     /* Fade out */
-    while(getch() != '\n') ;
+    //while(getch() != '\n') ;
     //system("python ./BSRMPlot.py"); 
     //getch();
     //system("pause");
     //system("exit");
-    return 0; 
+    //return 0; 
 }
 
 //  please use the command goes  

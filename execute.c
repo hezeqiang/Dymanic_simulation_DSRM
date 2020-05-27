@@ -15,10 +15,7 @@
 
 int main(){
     
-    system("gcc -o info  main.c controller.c observer.c");
-    // system("\"gcc  main.c controller.c observer.c -o info\"");
-    system("D:\\graduation project\\Dymanic_simulation\\Dymanic_simulation_BSRM\\info.exe"); 
-    system("python ./BSRMPlot.py"); 
-    getch();
-    system("pause");
+    system("gcc -o info main.c controller.c observer.c");
+    system("info.exe"); 
+    system("python BSRMPlot.py"); 
 }
