@@ -628,15 +628,16 @@ int main(){
     /* Fade out */
     while(getch() != '\n') ;
     //system("python ./BSRMPlot.py"); 
-    // getch();
-    // system("pause");
-    // system("exit");
+    //getch();
+    //system("pause");
+    //system("exit");
     return 0; 
 }
 
 //  please use the command goes  
 //  gcc main.c controller.c observer.c -o info
-//  then run info.exe 
+//  then run use
+//  .\info.exe 
 //  python BSRMPlot.py
 
 
