@@ -576,6 +576,7 @@ int main(){
 
     int step; // _ for the outer iteration
     
+    // Frequence @ 2000000, control frequence @ 10000
     for(step=0;step<(NUMBER_OF_STEPS/2);++step){
         
         // printf("%d\n", _);
@@ -636,11 +637,11 @@ int main(){
 //  please use the command goes  
 //  gcc main.c controller.c observer.c -o info
 //  then run info.exe 
+//  python BSRMPlot.py
 
 
-// del info.exe
-// del info.txt 
-// del.info.dat
-
+//  del info.exe
+//  del info.txt 
+//  del.info.dat
 
 
