@@ -19,5 +19,3 @@ int main(){
     system("info.exe"); 
     system("python BSRMPlot.py"); 
 }
-
-
