@@ -11,7 +11,7 @@ void write_header_to_file(FILE *fw){// include the explaination of data imformat
     fprintf(fw, "Velocity/(rpm),Current/(A),Current/(A),Current/(A),Angle/(rad),Angle/(rad),Tem/(Nm),Current/(A),Current/(A),Current/(A),Current/(A),Force/(N),Force/(N),Force/(N),Force/(N),Displacement/(um),Displacement/(um),Velocity/(m/s),Velocity/(m/s),Angle/(rad)\n");    
     {
         FILE *fw2;
-        fw2 = fopen("info.dat", "w");   //create a new file named info.dat
+        fw2 = fopen("info.dat", "w");   //create a new file named info.dat. If exist, clear all.
         fprintf(fw2, "SIMULATION_FRE,WRITE_PER_TIME,DATA_FILE_NAME\n");
         fprintf(fw2, "%d, %f, %s\n", NS, WRITE_PER_TIME , "info.txt");
         //%f   output as format float 3.1415926
@@ -23,7 +23,7 @@ void write_header_to_file(FILE *fw){// include the explaination of data imformat
     }
     {
         FILE *fw3;
-        fw3 = fopen("title.txt", "w");   //create a new file named title.txt
+        fw3 = fopen("title.txt", "w");   //create a new file named title.txt. If exist, clear all.
         fprintf(fw3, "Rotational Speed,Current in A Phase,Current in B Phase,Current in C Phase,Angle of A Phase,Angle of Rotor,Total Torque,Current of A Phase Suspension Winding in X Axis,Current of A Phase Suspension Winding in Y Axis,Order of Current of A Phase Suspension Winding in X Axis,Order of Current of A Phase Suspension Winding in Y Axis,Order of Force in X Axis,Order of Force in Y Axis,Force in X Axis,Force in Y Axis,Displacement in X Axis,Displacement in Y Axis,Velocity in X Axis,Velocity in Y Axis,Advance Angle\n");
         fclose(fw3);
     }
@@ -564,8 +564,8 @@ int main(){
     CTRL_init();
     //   obesever_init();
 
-    FILE *fw;
-    fw = fopen("info.txt", "w");
+    FILE *fw; 
+    fw = fopen("info.txt", "w");//creat a file named info.txt. If exist, clear all.
     printf("%s\n", "data.txt");   
     write_header_to_file(fw);
 
