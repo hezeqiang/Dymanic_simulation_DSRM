@@ -16,7 +16,7 @@ void main(){
     fp_write = fopen("BSRMSim.h", "w+");   
 
 
-    while ( true)   //if str1= str2 ，then strcmp(str1, str2)=0
+    while ( true)   //if str2 is in str2 ，then strstr(str1, str2)=1
     {
         printf("%s",temp_buff_for_print);
         fgets(buff, 255, (FILE*)fp_read);
