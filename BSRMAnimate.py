@@ -34,7 +34,7 @@ def animate(_):
                 try:
                     ax.plot(time, data[keys[idx]][:n*_index])
 
-                except ValueError as error:
+                except Exception as error:
                     # print(str(error))
                     data_backup = data
                     data, keys = get_data(fname)
