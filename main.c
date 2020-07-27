@@ -462,7 +462,8 @@ int machine_simulation(int step){
     
    
    
-    BSRM.X_load = 1*sin(2*pi*1*BSRM.TIME);
+    BSRM.X_load = 2 ; //1*sin(2*pi*1*BSRM.TIME);
+    BSRM.Y_load = 0 ; 
     // solve for BSRM.x with force and torque, inputs STEP
     Range_Kuta(step);
     //ALL OF THE IMFORMATION IS STORED IN BSRM.
