@@ -11,5 +11,7 @@
         "controller.h": "c",
         "process.h": "c"
     },
+    "python.pythonPath": "C:\\Users\\HeZeqiang\\Anaconda3\\python.exe",
     "C_Cpp.errorSquiggles": "Enabled"
+    
 }
