@@ -49,6 +49,8 @@ textfont = {'family' : 'Times New Roman', #'serif',
 #   https://blog.csdn.net/mmc2015/article/details/72829107
 # color reference
 
+
+
 #print(matplotlib.rc_params())
 #print default setting
 #mpl.rcdefaults()
