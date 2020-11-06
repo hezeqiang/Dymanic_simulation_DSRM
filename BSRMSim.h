@@ -64,6 +64,23 @@
 #define Ns 11/2
 #define J 2.06e-6
 
+/***
+//MOTOR IMFORMATION
+#define NUMBER_OF_STATORS 12 // valid for BSRM
+#define NUMBER_OF_ROTORS 8 // valid for BSRM
+#define PHASE_NUMBER 3 // 3 phase machine
+#define H_STACK 0.015
+#define POLE_ARC pi/12
+#define RADIUS 0.025
+#define l_0 0.0015
+#define AIRGAP_LENGTH  l_0
+#define COMMUTATE_ANGLE pi/12
+#define friction_factor 0.000001//for the rpm speed
+#define c 1.49
+#define Nm 150/3
+#define Ns 120/2
+#define J 2.06e-6
+ * ***/
 
 // Everthing else is in here
 
