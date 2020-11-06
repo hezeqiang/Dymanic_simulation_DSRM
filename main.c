@@ -270,15 +270,15 @@ void Range_Kuta(int step){
     //ELECTRICAL PART DERITIVE
     imA_k1=(CTRL.UA-BSRM.Rm*BSRM.IA-BSRM.mech_w*BSRM.LA_deri_factor*2*Nm*Nm*BSRM.IA)/(BSRM.LA_facotr*2*Nm*Nm);
     ixA_k1=(CTRL.UA_X-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_X)/(BSRM.LA_facotr*Ns*Ns);
-    iyA_k1=(CTRL.UA_Y-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_Y)/(BSRM.LA_facotr*Ns*Ns);
+    iyA_k1=(CTRL.UA_Y-BSRM.Rs*BSRM.IA_Y-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_Y)/(BSRM.LA_facotr*Ns*Ns);
 
     imB_k1=(CTRL.UB-BSRM.Rm*BSRM.IB-BSRM.mech_w*BSRM.LB_deri_factor*2*Nm*Nm*BSRM.IB)/(BSRM.LB_facotr*2*Nm*Nm);
     ixB_k1=(CTRL.UB_X-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_X)/(BSRM.LB_facotr*Ns*Ns);
-    iyB_k1=(CTRL.UB_Y-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_Y)/(BSRM.LB_facotr*Ns*Ns);
+    iyB_k1=(CTRL.UB_Y-BSRM.Rs*BSRM.IB_Y-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_Y)/(BSRM.LB_facotr*Ns*Ns);
 
     imC_k1=(CTRL.UC-BSRM.Rm*BSRM.IC-BSRM.mech_w*BSRM.LC_deri_factor*2*Nm*Nm*BSRM.IC)/(BSRM.LC_facotr*2*Nm*Nm);
     ixC_k1=(CTRL.UC_X-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_X)/(BSRM.LC_facotr*Ns*Ns);
-    iyC_k1=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
+    iyC_k1=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_Y-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
 
     //BEGIN TO CALCULATE HTE k+1/2 step state variables
     BSRM.mech_angle=f_angle+ TIME_EACH_STEP*theta_k1/2;
@@ -312,15 +312,15 @@ void Range_Kuta(int step){
 
     imA_k2=(CTRL.UA-BSRM.Rm*BSRM.IA-BSRM.mech_w*BSRM.LA_deri_factor*2*Nm*Nm*BSRM.IA)/(BSRM.LA_facotr*2*Nm*Nm);
     ixA_k2=(CTRL.UA_X-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_X)/(BSRM.LA_facotr*Ns*Ns);
-    iyA_k2=(CTRL.UA_Y-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_Y)/(BSRM.LA_facotr*Ns*Ns);
+    iyA_k2=(CTRL.UA_Y-BSRM.Rs*BSRM.IA_Y-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_Y)/(BSRM.LA_facotr*Ns*Ns);
 
     imB_k2=(CTRL.UB-BSRM.Rm*BSRM.IB-BSRM.mech_w*BSRM.LB_deri_factor*2*Nm*Nm*BSRM.IB)/(BSRM.LB_facotr*2*Nm*Nm);
     ixB_k2=(CTRL.UB_X-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_X)/(BSRM.LB_facotr*Ns*Ns);
-    iyB_k2=(CTRL.UB_Y-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_Y)/(BSRM.LB_facotr*Ns*Ns);   
+    iyB_k2=(CTRL.UB_Y-BSRM.Rs*BSRM.IB_Y-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_Y)/(BSRM.LB_facotr*Ns*Ns);   
    
     imC_k2=(CTRL.UC-BSRM.Rm*BSRM.IC-BSRM.mech_w*BSRM.LC_deri_factor*2*Nm*Nm*BSRM.IC)/(BSRM.LC_facotr*2*Nm*Nm);
     ixC_k2=(CTRL.UC_X-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_X)/(BSRM.LC_facotr*Ns*Ns);
-    iyC_k2=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
+    iyC_k2=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_Y-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
 
 
     //BEGIN TO CALCULATE HTE k+1/2 step state variables
@@ -356,15 +356,15 @@ void Range_Kuta(int step){
 
     imA_k3=(CTRL.UA-BSRM.Rm*BSRM.IA-BSRM.mech_w*BSRM.LA_deri_factor*2*Nm*Nm*BSRM.IA)/(BSRM.LA_facotr*2*Nm*Nm);
     ixA_k3=(CTRL.UA_X-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_X)/(BSRM.LA_facotr*Ns*Ns);
-    iyA_k3=(CTRL.UA_Y-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_Y)/(BSRM.LA_facotr*Ns*Ns);
+    iyA_k3=(CTRL.UA_Y-BSRM.Rs*BSRM.IA_Y-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_Y)/(BSRM.LA_facotr*Ns*Ns);
 
     imB_k3=(CTRL.UB-BSRM.Rm*BSRM.IB-BSRM.mech_w*BSRM.LB_deri_factor*2*Nm*Nm*BSRM.IB)/(BSRM.LB_facotr*2*Nm*Nm);
     ixB_k3=(CTRL.UB_X-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_X)/(BSRM.LB_facotr*Ns*Ns);
-    iyB_k3=(CTRL.UB_Y-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_Y)/(BSRM.LB_facotr*Ns*Ns);   
+    iyB_k3=(CTRL.UB_Y-BSRM.Rs*BSRM.IB_Y-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_Y)/(BSRM.LB_facotr*Ns*Ns);   
    
     imC_k3=(CTRL.UC-BSRM.Rm*BSRM.IC-BSRM.mech_w*BSRM.LC_deri_factor*2*Nm*Nm*BSRM.IC)/(BSRM.LC_facotr*2*Nm*Nm);
     ixC_k3=(CTRL.UC_X-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_X)/(BSRM.LC_facotr*Ns*Ns);
-    iyC_k3=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
+    iyC_k3=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_Y-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
 
     //BEGIN TO CALCULATE HTE k+1 step state variables
     BSRM.mech_angle=f_angle+ TIME_EACH_STEP*theta_k3;
@@ -399,15 +399,15 @@ void Range_Kuta(int step){
 
     imA_k4=(CTRL.UA-BSRM.Rm*BSRM.IA-BSRM.mech_w*BSRM.LA_deri_factor*2*Nm*Nm*BSRM.IA)/(BSRM.LA_facotr*2*Nm*Nm);
     ixA_k4=(CTRL.UA_X-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_X)/(BSRM.LA_facotr*Ns*Ns);
-    iyA_k4=(CTRL.UA_Y-BSRM.Rs*BSRM.IA_X-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_Y)/(BSRM.LA_facotr*Ns*Ns);
+    iyA_k4=(CTRL.UA_Y-BSRM.Rs*BSRM.IA_Y-BSRM.mech_w*BSRM.LA_deri_factor*Ns*Ns*BSRM.IA_Y)/(BSRM.LA_facotr*Ns*Ns);
 
     imB_k4=(CTRL.UB-BSRM.Rm*BSRM.IB-BSRM.mech_w*BSRM.LB_deri_factor*2*Nm*Nm*BSRM.IB)/(BSRM.LB_facotr*2*Nm*Nm);
     ixB_k4=(CTRL.UB_X-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_X)/(BSRM.LB_facotr*Ns*Ns);
-    iyB_k4=(CTRL.UB_Y-BSRM.Rs*BSRM.IB_X-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_Y)/(BSRM.LB_facotr*Ns*Ns);   
+    iyB_k4=(CTRL.UB_Y-BSRM.Rs*BSRM.IB_Y-BSRM.mech_w*BSRM.LB_deri_factor*Ns*Ns*BSRM.IB_Y)/(BSRM.LB_facotr*Ns*Ns);   
 
     imC_k4=(CTRL.UC-BSRM.Rm*BSRM.IC-BSRM.mech_w*BSRM.LC_deri_factor*2*Nm*Nm*BSRM.IC)/(BSRM.LC_facotr*2*Nm*Nm);
     ixC_k4=(CTRL.UC_X-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_X)/(BSRM.LC_facotr*Ns*Ns);
-    iyC_k4=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_X-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
+    iyC_k4=(CTRL.UC_Y-BSRM.Rs*BSRM.IC_Y-BSRM.mech_w*BSRM.LC_deri_factor*Ns*Ns*BSRM.IC_Y)/(BSRM.LC_facotr*Ns*Ns);
     
     w_k=(w_k1+2*w_k2+2*w_k2+w_k4)/6;
     x_k=(x_k1+2*x_k2+2*x_k3+x_k4)/6;
@@ -454,15 +454,15 @@ int machine_simulation(int step){
     // BSRM.Tload = BSRM.Tem; // Blocked-rotor test
     
     if (step<(NUMBER_OF_STEPS/4)){
-        BSRM.Tload =  0.05 * friction_factor * (BSRM.rpm);
+        BSRM.Tload = 0.01 * friction_factor * (BSRM.rpm);
     }
     else{
-        BSRM.Tload = 0.05 * sign(BSRM.rpm)+   friction_factor * (BSRM.rpm);
+        BSRM.Tload = 0.003 * sign(BSRM.rpm)+  0.01 * friction_factor * (BSRM.rpm);
     }
     
    
    
-    BSRM.X_load = 1 ; //1*sin(2*pi*1*BSRM.TIME);
+    BSRM.X_load = 2 ; //1*sin(2*pi*1*BSRM.TIME);
     BSRM.Y_load = 0 ; 
     // solve for BSRM.x with force and torque, inputs STEP
     Range_Kuta(step);
