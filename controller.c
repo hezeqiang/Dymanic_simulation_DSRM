@@ -5,8 +5,8 @@
 struct BSRMSimulated BSRM;
 struct ControllerForExperiment CTRL;
 
-/* Incremental PID Control */
-//Tem
+/* Incremental integrating saperate PID Controller  */
+// Tem control PID 
 double PID_Speed(struct PID_Reg *r, double error){
     // incremental part, available to recalculate for spcifical cut-off frequence
     // the instance is a typical PID control with a limit.
@@ -33,7 +33,7 @@ double PID_Speed(struct PID_Reg *r, double error){
 
 }
 
-//Radial force
+// Radial force control PID
 double PID_Dis(struct PID_Reg *r, double error){
     // incremental part, available to recalculate for spcifical cut-off frequence
     // the instance is a typical PID control with a limit.
@@ -61,8 +61,8 @@ double PID_Dis(struct PID_Reg *r, double error){
 
 }
 
-
-/* Initialization */
+// Initialization of the controller,
+// and the data is giving by the math model and initial measurement of current and voltage
 void CTRL_init(){
     //initial measurement before motor start 
     CTRL.mech_angle = BSRM.mech_angle;
@@ -176,6 +176,8 @@ void CTRL_init(){
     printf("displacement y PID: Kp=%f, Ki=%f, Kd=%f, limit=%f Nm\n", CTRL.PID_disy.Kp, CTRL.PID_disy.Ki,CTRL.PID_disy.Kd, CTRL.PID_disy.limit);
 }
 
+// this is the model of circuit considering the free-wheel current and the zero-cross happenings.
+// this current is controlled @ a frequence of 10k
 void circuit_main_A(){
     
     //  when the A phase is on
@@ -414,6 +416,8 @@ void circuit_main_C(){
     BSRM.IC_Y_pre=BSRM.IC_Y;    
 }
 
+
+// main control programing
 void control(int step){
     static int ctrl_judge=0;
 

@@ -1,31 +1,27 @@
 #coding:u8
-import os
-import matplotlib.pyplot as plt
-import numpy as np
-from pylab import mpl
+from pylab import plt, mpl, np
 from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes
 from mpl_toolkits.axes_grid1.inset_locator import mark_inset
 # from pprint import pprint
 from collections import OrderedDict as O
 import pandas as pd
 
+
 #for saving fig as tif file
 from mpl_toolkits.mplot3d import Axes3D
 from PIL import Image
 from io import BytesIO
 
+
 # plot style
-# produce a one-demesion array between （0，5） containing 4 element
-# a = np.random.randint(0, 5, (4,))
-# plt.style.available print all available style in plt
-style = np.random.choice(plt.style.available)
-print(style)
-# use specific style named ggplot
+#produce a one-demesion array between （0，5） containing 4 element
+#a = np.random.randint(0, 5, (4,))
+#plt.style.available print all available style in plt
+style = np.random.choice(plt.style.available);print(style)
+#use specific style named ggplot
 plt.style.use( 'classic')
-# frequently used style
-# ['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale']
-
-
+#frequently used style
+#['bmh', 'classic', 'dark_background', 'fast', 'fivethirtyeight', 'ggplot', 'grayscale']
 
 # plot setting
 mpl.rcParams['mathtext.fontset'] = 'stix'
@@ -93,9 +89,12 @@ def plot_it(ax, ylabel, d, time=None):
     # a.plot(x1, y1, 'g^', x2, y2, 'g-')
     # ax.legend(loc='lower right', shadow=True)
     # ax.legend(bbox_to_anchor=(1.08,0.5), borderaxespad=0., loc='center', shadow=True)
+    # use gca get the current axis
+    # use gcf get the current figure
     ax.set_ylabel(ylabel,fontdict=font)
     ax.set_xlabel('Time /(second)',fontdict=font)
-    #   ax.set_title(title_fig[ID_x],fontdict=font_title ,loc='center' )
+    ax.set_title(title_fig[ID_x],fontdict=font_title ,loc='center' )
+
     # plt.text(0.5 * (a+b), 1, r"$\int_a^b f(x)\mathrm{d}x$")
     # LaTex insert
     # r""for LaTex, $$ for equation
@@ -115,11 +114,11 @@ if __name__ == '__main__':
     df_profiles = pd.read_csv(data_file_name, na_values = ['1.#QNAN', '-1#INF00', '-1#IND00'])
     #   read the data file containing the simulation results.
 
-#    df_title = pd.read_csv('title.txt', na_values=['1.#QNAN', '-1#INF00', '-1#IND00'])
-#    title_fig=list()
-#    for key in df_title.keys():
-#        title_fig.append(key)
-#        print(key)
+    df_title = pd.read_csv('title.txt', na_values=['1.#QNAN', '-1#INF00', '-1#IND00'])
+    title_fig=list()
+    for key in df_title.keys():
+        title_fig.append(key)
+        print(key)
 
     no_samples = df_profiles.shape[0]
     # get number of rows
@@ -136,7 +135,7 @@ if __name__ == '__main__':
     ax_list = []
 #    for i in range(0, no_traces, 2):    #   for i in range(1, 101，1) print from 1 to 101
 #        ax_list += list(get_axis((1,2)))    #   add axis list to ax_list
-    for i in range(0, no_traces, 1):    #   for i in range(1, 101，1) print from 1 to 101
+    for i in range(0, no_traces):    #   for i in range(1, 101，1) print from 1 to 101
         ax_list.append(get_axis())
         #ax_list.append(get_axis(1,1))    #   add axis list to ax_list
 
@@ -157,5 +156,3 @@ if __name__ == '__main__':
     plt.show()
 
     quit()
-
-

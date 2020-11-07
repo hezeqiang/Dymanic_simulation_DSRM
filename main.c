@@ -204,6 +204,8 @@ void dynamics(){
     cal_L_deri_factor_C(-fbs(BSRM.angle_C),BSRM.angle_C);
 
     BSRM.Tem=BSRM.Tem_A+BSRM.Tem_B+BSRM.Tem_C;
+
+    // require to be modify
     BSRM.x_force= BSRM.x_force_A+(BSRM.x_force_B+BSRM.x_force_C)*sqrt3/2+(-BSRM.y_force_B+BSRM.y_force_C)*1/2+1300000*BSRM.x_displacement;
     BSRM.y_force= BSRM.y_force_A+(BSRM.y_force_B+BSRM.y_force_C)*sqrt3/2+(BSRM.x_force_B-BSRM.x_force_C)*1/2+1300000*BSRM.y_displacement;
 
@@ -457,7 +459,7 @@ int machine_simulation(int step){
         BSRM.Tload = 0.01 * friction_factor * (BSRM.rpm);
     }
     else{
-        BSRM.Tload = 0.003 * sign(BSRM.rpm)+  0.01 * friction_factor * (BSRM.rpm);
+        BSRM.Tload = 0.060 * sign(BSRM.rpm)+  0.01 * friction_factor * (BSRM.rpm);
     }
     
    
