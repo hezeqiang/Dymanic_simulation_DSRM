@@ -1,4 +1,5 @@
 #coding:u8
+import os
 from pylab import plt, mpl, np
 from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes
 from mpl_toolkits.axes_grid1.inset_locator import mark_inset
@@ -154,5 +155,8 @@ if __name__ == '__main__':
     #fig.savefig('%s.tif',ylabel)
     #   the final direction in the script to creat the defined figure
     plt.show()
+
+    # do some stuff in script
+    variable = input('input something!: ')
 
     quit()

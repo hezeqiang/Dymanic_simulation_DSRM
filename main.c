@@ -8,7 +8,7 @@ struct ControllerForExperiment CTRL;
 void write_header_to_file(FILE *fw){// include the explaination of data imformation
     // no space is allowed!
     //BSRM.IA(Current)[A],BSRM.IA_X(Current)[A],BSRM.IA_Y(Current)[A],BSRM.IB(Current)[A],BSRM.IC(Current)[A],BSRM.Kf1_A(Factor),BSRM.Kf2_A(Factor),BSRM.LA(Inductance)[H],BSRM.mech_angle(position)[rad],BSRM.rpm(Speed)[rpm],BSRM.rpm_cmd(Speed)[rpm],BSRM.Tem(Torque)[N*m],CTRL.UA(Voltage)[V],CTRL.UA_X(Voltage)[V],CTRL.UA_Y(Voltage)[V],CTRL.UB(Voltage)[V],CTRL.UC(Voltage)[V],BSRM.Tem,BSRM.Tem_A,BSRM.Tem_B,BSRM.Tem_C,BSRM.Tload,BSRM.mech_angle,BSRM.timebase(Time)[s],CTRL.advance_angle(Angle)[rad],CTRL.angle_A(Angle)[rad],CTRL.mech_angle(Angle)[rad],CTRL.rpm(Speed)[rpm],CTRL.UA\n"
-    fprintf(fw, "Velocity/(rpm),Current/(A),Current/(A),Current/(A),Angle/(rad),Angle/(rad),Tem/(Nm),Current/(A),Current/(A),Current/(A),Current/(A),Force/(N),Force/(N),Force/(N),Force/(N),Displacement/(um),Displacement/(um),Velocity/(m/s),Velocity/(m/s),Angle/(rad)\n");    
+    fprintf(fw, "Time/(s),Velocity/(rpm),Current/(A),Current/(A),Current/(A),Angle/(rad),Angle/(rad),Tem/(Nm),Current/(A),Current/(A),Current/(A),Current/(A),Force/(N),Force/(N),Force/(N),Force/(N),Displacement/(um),Displacement/(um),Velocity/(m/s),Velocity/(m/s),Angle/(rad)\n");    
     {
         FILE *fw2;
         fw2 = fopen("info.dat", "w");   //create a new file named info.dat. If exist, clear all.
@@ -24,7 +24,7 @@ void write_header_to_file(FILE *fw){// include the explaination of data imformat
     {
         FILE *fw3;
         fw3 = fopen("title.txt", "w");   //create a new file named title.txt. If exist, clear all.
-        fprintf(fw3, "Rotational Speed,Current in A Phase,Current in B Phase,Current in C Phase,Angle of A Phase,Angle of Rotor,Total Torque,Current of A Phase Suspension Winding in X Axis,Current of A Phase Suspension Winding in Y Axis,Order of Current of A Phase Suspension Winding in X Axis,Order of Current of A Phase Suspension Winding in Y Axis,Order of Force in X Axis,Order of Force in Y Axis,Force in X Axis,Force in Y Axis,Displacement in X Axis,Displacement in Y Axis,Velocity in X Axis,Velocity in Y Axis,Advance Angle\n");
+        fprintf(fw3, "Time,Rotational Speed,Current in A Phase,Current in B Phase,Current in C Phase,Angle of A Phase,Angle of Rotor,Total Torque,Current of A Phase Suspension Winding in X Axis,Current of A Phase Suspension Winding in Y Axis,Current Order of A Phase Suspension Winding in X Axis,Current Order of A Phase Suspension Winding in Y Axis,Order of Force in X Axis,Order of Force in Y Axis,Force in X Axis,Force in Y Axis,Displacement in X Axis,Displacement in Y Axis,Velocity in X Axis,Velocity in Y Axis,Advance Angle\n");
         fclose(fw3);
     }
 
@@ -40,7 +40,7 @@ void write_data_to_file(FILE *fw){
         {
             write_judge=0;
             // no space is allowed!!!23
-            fprintf(fw, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",BSRM.rpm,BSRM.IA,BSRM.IB,BSRM.IC,BSRM.angle_A,BSRM.mech_angle,BSRM.Tem,BSRM.IA_X,BSRM.IA_Y,CTRL.IA_X,CTRL.IA_Y,CTRL.x_force,CTRL.y_force,BSRM.x_force,BSRM.y_force,BSRM.x_displacement*1000000,BSRM.y_displacement*1000000,BSRM.x_v,BSRM.y_v,CTRL.advance_angle //20
+            fprintf(fw, "%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f,%f\n",BSRM.TIME,BSRM.rpm,BSRM.IA,BSRM.IB,BSRM.IC,BSRM.angle_A,BSRM.mech_angle,BSRM.Tem,BSRM.IA_X,BSRM.IA_Y,CTRL.IA_X,CTRL.IA_Y,CTRL.x_force,CTRL.y_force,BSRM.x_force,BSRM.y_force,BSRM.x_displacement*1000000,BSRM.y_displacement*1000000,BSRM.x_v,BSRM.y_v,CTRL.advance_angle //20
                     );
         }
         
@@ -206,8 +206,8 @@ void dynamics(){
     BSRM.Tem=BSRM.Tem_A+BSRM.Tem_B+BSRM.Tem_C;
 
     // require to be modify
-    BSRM.x_force= BSRM.x_force_A+(BSRM.x_force_B+BSRM.x_force_C)*sqrt3/2+(-BSRM.y_force_B+BSRM.y_force_C)*1/2+1300000*BSRM.x_displacement;
-    BSRM.y_force= BSRM.y_force_A+(BSRM.y_force_B+BSRM.y_force_C)*sqrt3/2+(BSRM.x_force_B-BSRM.x_force_C)*1/2+1300000*BSRM.y_displacement;
+    BSRM.x_force= BSRM.x_force_A+(BSRM.x_force_B+BSRM.x_force_C)*sqrt3/2+(-BSRM.y_force_B+BSRM.y_force_C)*1/2+0*1300000*BSRM.x_displacement;
+    BSRM.y_force= BSRM.y_force_A+(BSRM.y_force_B+BSRM.y_force_C)*sqrt3/2+(BSRM.x_force_B-BSRM.x_force_C)*1/2+0*1300000*BSRM.y_displacement;
 
     
 }
@@ -455,7 +455,7 @@ int machine_simulation(int step){
     // BSRM.Tload = 0 * sign(BSRM.rpm); // No-load test
     // BSRM.Tload = BSRM.Tem; // Blocked-rotor test
     
-    if (step<(NUMBER_OF_STEPS/4)){
+    if (step<(NUMBER_OF_STEPS/2)){
         BSRM.Tload = 0.01 * friction_factor * (BSRM.rpm);
     }
     else{
