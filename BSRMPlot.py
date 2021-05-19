@@ -1,6 +1,9 @@
 #coding:u8
 import os
-from pylab import plt, mpl, np
+import matplotlib as mpl
+from matplotlib.pyplot import subplots
+import matplotlib.pyplot as plt
+import numpy as np
 from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes
 from mpl_toolkits.axes_grid1.inset_locator import mark_inset
 # from pprint import pprint
