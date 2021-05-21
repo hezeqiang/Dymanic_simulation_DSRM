@@ -1,4 +1,4 @@
-#coding:u8
+# coding:u8
 import os
 import matplotlib as mpl
 from matplotlib.pyplot import subplots
