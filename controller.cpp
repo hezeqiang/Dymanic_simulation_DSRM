@@ -2,8 +2,6 @@
 #include "controller.h"
 
 
-struct BSRMSimulated BSRM;
-struct ControllerForExperiment CTRL;
 
 /* Incremental integrating saperate PID Controller  */
 // Tem control PID 
