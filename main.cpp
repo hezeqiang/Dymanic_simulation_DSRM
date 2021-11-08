@@ -638,7 +638,7 @@ int main(){
 }
 
 //  please use the command goes  
-//  gcc main.c controller.c observer.c -o info
+//  gcc main.cpp controller.cpp observer.cpp -o info
 //  then run use
 //  .\info.exe 
 //  python BSRMPlot.py

@@ -7,7 +7,7 @@ void main(){
     if(!access("info.txt",0)) system("del info.txt");  
     if(!access("title.txt",0)) system("del title.txt"); 
 
-    system("gcc -o info main.c controller.c observer.c");
+    system("gcc -o info main.cpp controller.cpp observer.cpp");
     system("info.exe"); 
     system("python BSRMPlot.py"); 
 }
