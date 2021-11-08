@@ -493,7 +493,7 @@ void Machine_init(){
     BSRM.mech_w = 0;
     BSRM.mech_angle = pi/24;
     BSRM.TIME = 0;
-    BSRM.x_displacement = 0;
+    BSRM.x_displacement = 0.0002;
     BSRM.y_displacement = 0;
     BSRM.x_v = 0;
     BSRM.y_v = 0;

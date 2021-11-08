@@ -7,10 +7,16 @@
 #define SPEED_LOOP_PID_DIREVATIVE 0
 #define SPEED_LOOP_LIMIT_ANGLE pi*7/180  //6° instead 7.5°
 
-#define DIS_LOOP_PID_PROPORTIONAL_GAIN 200  // the Kp is between 200 - 500
-#define DIS_LOOP_PID_INTEGRAL 50
-#define DIS_LOOP_PID_DIREVATIVE 1500 // the Kd is between 1000 - 4000
+//#define DIS_LOOP_PID_PROPORTIONAL_GAIN 200  // the Kp is between 200 - 500
+//#define DIS_LOOP_PID_INTEGRAL 50
+//#define DIS_LOOP_PID_DIREVATIVE 1500 // the Kd is between 1000 - 4000
+//#define DIS_LOOP_LIMIT 100
+
+#define DIS_LOOP_PID_PROPORTIONAL_GAIN 600  // the Kp is between 200 - 500
+#define DIS_LOOP_PID_INTEGRAL 200
+#define DIS_LOOP_PID_DIREVATIVE 6000 // the Kd is between 1000 - 4000
 #define DIS_LOOP_LIMIT 100
+
 
 #define CURRENT_HYSTERSIS 0.1
 #define CURRENT_MIAN_WINDINGS 15
