@@ -6,3 +6,4 @@
 // for clrscr clear screen .getch() get the input char
 #include "stdlib.h" // for rand()
 #include "math.h"
+#include "unistd.h"
