@@ -3,7 +3,7 @@
         {
             "type": "shell",
             "label": "gcc.exe build active file",
-            "command": "gcc",  // g++
+            "command": "g++",  // g++
             "args": [
                 "-g",
                 "${file}",
