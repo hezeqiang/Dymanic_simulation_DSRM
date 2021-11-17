@@ -20,6 +20,7 @@
 #define WRITE_FRE 50000
 #define WRITE_PER_TIME 0.00002
 #define CTRL_FRE 10000
+#define CTRL_step 0.0001
 #define MEASURE_FRE 10000
 
 

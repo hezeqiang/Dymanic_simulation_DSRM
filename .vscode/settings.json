@@ -9,7 +9,8 @@
         "bsrmsim.h": "c",
         "stdlib.h": "c",
         "controller.h": "c",
-        "process.h": "c"
+        "process.h": "c",
+        "*.tcc": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
